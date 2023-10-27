@@ -11,11 +11,12 @@ import {
   ScrollView,
   StyleSheet,
   StatusBar,
-  Dimensions
+  Dimensions,
 } from 'react-native';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
-import eyeOpen from '../appimages/eyeopen.png';
-import eyeclosed from '../appimages/eye.png';
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import TextInputView from '../Component/TextInputView';
+import PasswordView from '../Component/PasswordView';
+import fonts from '../utils/FontUtils';
 
 const SignUp = ({navigation}) => {
   const [first_name, setFirstName] = useState('');
@@ -23,24 +24,6 @@ const SignUp = ({navigation}) => {
   const [phone, setPhone] = useState('');
   const [password, setPassword] = useState('');
   const [token, setToken] = useState('');
-  const [showName, setShowName] = useState(false);
-  const [showPhone, setshowPhone] = useState(false);
-  const [showPassword, setshowPassword] = useState(false);
-  const [showEmail, setshowEmail] = useState(false);
-  const [fadeName,setFadeName]=useState(false);
-  const [fadeNum,setFadeNum]=useState(false);
-  const [fadePass,setFadePass]=useState(false);
-  const [fadeEmail,setFadeEmail]=useState(false);
-
-  const [eye,setEye]=useState(false);
-
-  //   const show= (text)=>{
-  //     setPassword(text);
-  //     if(text==null){
-  //      setshowPassword(false)
-  //     }
-
-  //  }
 
   const Register = async () => {
     const url = 'https://foremostdigital.dev/adforest/api/register1';
@@ -92,35 +75,14 @@ const SignUp = ({navigation}) => {
       console.warn(error);
     }
   };
-  useEffect(() => {
-    if (password === '') {
-      setshowPassword(false);
-    } else {
-      setshowPassword(true);
-    }
-    if (first_name === '') {
-      setShowName(false);
-    } else {
-      setShowName(true);
-    }
-    if (email==="") {
-      setshowEmail(false)
-    } else {
-      setshowEmail(true)
-    }
-    if (phone==="") {
-      setshowPhone(false)
-    } else {
-      setshowPhone(true)
-    }
-  });
 
   return (
-   
-    <SafeAreaView style={{backgroundColor: 'black', flex: 1}}>
-      
-      <KeyboardAwareScrollView style={{backgroundColor:'white'}}>
-      <ScrollView style={{backgroundColor:'white'}} showsVerticalScrollIndicator={false}>
+    <SafeAreaView style={{backgroundColor: 'white', flex: 1}}>
+      <KeyboardAwareScrollView
+        style={{backgroundColor: 'white'}}
+        keyboardShouldPersistTaps={'handled'}
+        extraScrollHeight={50}
+        showsVerticalScrollIndicator={false}>
         {/* TopView */}
         <View style={{flex: 0.8, justifyContent: 'center', paddingTop: 20}}>
           <Text
@@ -128,7 +90,7 @@ const SignUp = ({navigation}) => {
               fontSize: 30,
               color: 'black',
               alignSelf: 'center',
-              fontFamily:'Poppins-SemiBold',
+              fontFamily: fonts.frutigebold,
             }}>
             Create Account
           </Text>
@@ -142,7 +104,7 @@ const SignUp = ({navigation}) => {
               color: '#AAA100',
               alignSelf: 'center',
               marginTop: 10,
-              fontFamily:'Poppins-Medium'
+              fontFamily: fonts.frutigeregular,
             }}>
             Upload Image
           </Text>
@@ -157,95 +119,34 @@ const SignUp = ({navigation}) => {
             flex: 1,
             paddingVertical: 20,
           }}>
-          <View
-            style={fadeName ? styles.startWrite :styles.stopWrite}>
-              {showName ? (
-                <View style={{marginLeft: 15, marginBottom: 5}}>
-                  <Text style={{fontSize: 12}}>Full Name</Text>
-                </View>
-              ) : null}
-            
-            <TextInput
-              style={{marginLeft: 15,fontSize:16,fontFamily:'Poppins-Medium'}}
-              onTouchStart={()=>setFadeName(true)}
-              onEndEditing={()=>setFadeName(false)}
-              placeholder="Enter full name"
-              placeholderTextColor={'#848484'}
-              onChangeText={text => setFirstName(text)}
-            />
-          </View>
+          <TextInputView
+            placeholderText={'Enter Full Name'}
+            onChange={i => setFirstName(i)}
+            showText={first_name == '' ? false : true}
+            Text={'Full Name'}
+          />
 
-          <View
-            style={fadeNum ? styles.startWrite :styles.stopWrite}>
-              {showPhone ? (
-                <View style={{marginLeft: 15, marginBottom: 5}}>
-                  <Text style={{fontSize: 12}}>Phone Number</Text>
-                </View>
-              ) : null}
-           
-            <TextInput
-              style={{marginLeft: 15,fontSize:16,fontFamily:'Poppins-Medium'}}
-              onTouchStart={()=>setFadeNum(true)}
-              onEndEditing={()=>setFadeNum(false)}
-              placeholder="Phone Number "
-              placeholderTextColor={'#848484'}
-              onChangeText={text => setPhone(text)}
-            />
-          </View>
+          <TextInputView
+            placeholderText={'Phone Number'}
+            onChange={i => setPhone(i)}
+            showText={phone == '' ? false : true}
+            Text={'Phone Number'}
+            keyboardType={'numeric'}
+          />
 
-          <View style={fadePass ? styles.startPass : styles.stopPass}>
-            
-            <View style={{flex:1,justifyContent:'center'}}>
+          <PasswordView
+            placeholderText={'Password'}
+            Text={'Password'}
+            onChange={i => setPassword(i)}
+            showText={password == '' ? false : true}
+          />
 
-            {showPassword ? (
-                <View style={{marginLeft: 15,marginBottom:5 }}>
-                  <Text style={{fontSize: 12}}>Password</Text>
-                </View>
-              ) : null}
-              
-              <TextInput
-                style={{
-                  marginLeft: 15,
-                  fontSize: 16,
-                  fontFamily: 'Poppins-Medium',
-                  
-                  
-                }}
-                secureTextEntry={eye ? false : true}
-                onTouchStart={() => setFadePass(true)}
-                onEndEditing={() => setFadePass(false)}
-                placeholder="Password"
-                placeholderTextColor={'#848484'}
-                onChangeText={text => setPassword(text)}
-                value={password}
-              />
-             
-            </View>
-            <Image
-              style={{alignSelf: 'center', marginHorizontal:20}}
-              onStartShouldSetResponder={() => setEye(!eye)}
-              source={eye ? eyeOpen : eyeclosed}
-            />
-           
-          </View>
-
-          <View
-            style={fadeEmail ? styles.startWrite :styles.stopWrite}>
-              {showEmail ? (
-                <View style={{marginLeft: 15, marginBottom: 5}}>
-                  <Text style={{fontSize: 12}}>Email Address</Text>
-                </View>
-              ) : null}
-           
-            <TextInput
-              style={{marginLeft: 15,fontSize:16,fontFamily:'Poppins-Medium'}}
-              onTouchStart={()=>setFadeEmail(true)}
-              onEndEditing={()=>setFadeEmail(false)}
-              placeholder="Email Address"
-              placeholderTextColor={'#848484'}
-              onChangeText={text => setEmail(text)}
-            />
-          </View>
+          <TextInputView
+            placeholderText={'Email Address'}
+            onChange={i => setEmail(i)}
+            showText={email == '' ? false : true}
+            Text={'Email Address'}
+          />
         </View>
 
         {/* bottomView */}
@@ -254,27 +155,39 @@ const SignUp = ({navigation}) => {
           style={{
             flex: 0.7,
             justifyContent: 'center',
-            paddingBottom:25 ,
-            paddingHorizontal:15,
-            paddingTop:10,
+            paddingBottom: 25,
+            paddingHorizontal: 15,
+            paddingTop: 10,
             backgroundColor: '#F5F5F5',
           }}>
-          
           <Text
             style={{
               color: '#848484',
               fontSize: 13,
               alignSelf: 'center',
-              fontFamily:'Poppins-Regular'
+              fontFamily: fonts.frutigeregular,
+              lineHeight: 18,
             }}>
             {' '}
             By Creating your account or logging in, You {'\n'}
-            agree to our {<Text style={{fontSize:12,fontFamily:'Poppins-Bold'}}>Terms Of Service</Text>} and {<Text style={{fontSize:12,fontFamily:'Poppins-Bold'}}>Privacy Policy </Text>} 
+            agree to our{' '}
+            {
+              <Text style={{fontSize: 12, fontFamily: fonts.frutigebold}}>
+                Terms Of Service
+              </Text>
+            }{' '}
+            and{' '}
+            {
+              <Text style={{fontSize: 12, fontFamily: fonts.frutigebold}}>
+                Privacy Policy{' '}
+              </Text>
+            }
           </Text>
-          
+
           <TouchableOpacity
+            activeOpacity={1}
             onPress={() => {
-              Register();
+              navigation.navigate('Home');
             }}
             style={{
               backgroundColor: '#FFF200',
@@ -283,65 +196,85 @@ const SignUp = ({navigation}) => {
               justifyContent: 'center',
               marginTop: 15,
             }}>
-            <Text style={{alignSelf: 'center',fontFamily:'Poppins-Medium',fontSize:14}}>Registration</Text>
+            <Text
+              style={{
+                alignSelf: 'center',
+                fontFamily: fonts.frutigebold,
+                fontSize: 14,
+              }}>
+              Registration
+            </Text>
           </TouchableOpacity>
-          <Text
-            onPress={() => navigation.navigate('LogIn')}
-            style={{fontSize: 12, marginTop: 15, alignSelf: 'center',fontFamily:'Poppins-Regular'}}>
-            Already have an account? {<Text style={{fontFamily:'Poppins-SemiBold',color:'#AAA100'}}>Sign in</Text>} 
-          </Text>
+          <TouchableOpacity
+            activeOpacity={1}
+            onPress={() => navigation.navigate('LogIn')}>
+            <Text
+              style={{
+                fontSize: 12,
+                marginTop: 15,
+                alignSelf: 'center',
+                fontFamily: fonts.frutigeregular,
+              }}>
+              Already have an account?{' '}
+              {
+                <Text style={{fontFamily: fonts.frutigebold, color: '#AAA100'}}>
+                  Sign in
+                </Text>
+              }
+            </Text>
+          </TouchableOpacity>
         </View>
-      </ScrollView>
       </KeyboardAwareScrollView>
     </SafeAreaView>
-   
   );
 };
 
 const styles = StyleSheet.create({
   startWrite: {
     marginTop: 15,
-    borderWidth:1,
+    borderWidth: 1,
     borderColor: 'black',
     height: 70,
     marginLeft: 25,
     marginRight: 25,
     justifyContent: 'center',
-    width: Dimensions.get('window').width-25,
+    width: Dimensions.get('window').width - 25,
     alignSelf: 'center',
   },
   stopWrite: {
     marginTop: 15,
-    borderWidth:1,
+    borderWidth: 1,
     borderColor: '#A8A8A8',
     height: 70,
     marginLeft: 25,
     marginRight: 25,
     justifyContent: 'center',
-    width: Dimensions.get('window').width-25,
+    width: Dimensions.get('window').width - 25,
     alignSelf: 'center',
-  }, stopPass: {
+  },
+  stopPass: {
     marginTop: 15,
-    borderWidth:1,
+    borderWidth: 1,
     borderColor: '#A8A8A8',
     height: 70,
     marginLeft: 25,
     marginRight: 25,
     justifyContent: 'center',
-    width: Dimensions.get('window').width-25,
+    width: Dimensions.get('window').width - 25,
     alignSelf: 'center',
-    flexDirection:'row'
-  },startPass: {
+    flexDirection: 'row',
+  },
+  startPass: {
     marginTop: 15,
-    borderWidth:1,
+    borderWidth: 1,
     borderColor: 'black',
     height: 70,
     marginLeft: 25,
     marginRight: 25,
     justifyContent: 'center',
-    width: Dimensions.get('window').width-25,
+    width: Dimensions.get('window').width - 25,
     alignSelf: 'center',
-    flexDirection:'row'
+    flexDirection: 'row',
   },
 });
 export default SignUp;

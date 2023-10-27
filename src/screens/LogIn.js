@@ -17,10 +17,13 @@ import {Toast} from 'react-native-toast-message/lib/src/Toast';
 import {create} from 'react-test-renderer';
 import eyeOpen from '../appimages/eyeopen.png';
 import eyeclosed from '../appimages/eye.png';
-
+import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import TextInputView from '../Component/TextInputView';
+import PasswordView from '../Component/PasswordView';
+import fonts from '../utils/FontUtils';
 
 const LogIn = ({navigation}) => {
-  const  windowWidth = Dimensions.get('window').width;
+  const windowWidth = Dimensions.get('window').width;
   const windowHeight = Dimensions.get('window').height;
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -123,261 +126,217 @@ const LogIn = ({navigation}) => {
   });
 
   return (
-    <SafeAreaView style={{backgroundColor: 'black'}}>
-      <ScrollView style={{backgroundColor: 'white'}}>
-        <View style={{flex: 1}}>
-          <TouchableOpacity
-            onPress={() => navigation.replace('Information')}
-            style={{
-              backgroundColor: '#FFF200',
-              height: 40,
-              width: 40,
-              marginTop: 10,
-              marginVertical: 10,
+    <SafeAreaView style={{backgroundColor: 'white', flex: 1}}>
+      <TouchableOpacity
+      activeOpacity={1}
+        onPress={() => navigation.replace('Information')}
+        style={{
+          backgroundColor: '#FFF200',
+          height:35,
+          width:35,
+          marginTop: 10,
+          marginVertical: 10,
 
+          justifyContent: 'center',
+          marginLeft: 15,
+        }}>
+        <Image
+          style={{alignSelf: 'center'}}
+          source={require('../appimages/backicon.png')}
+        />
+      </TouchableOpacity>
+      <KeyboardAwareScrollView
+       showsVerticalScrollIndicator={false}
+        contentContainerStyle={{flexGrow: 1}}
+        keyboardShouldPersistTaps={'handled'}>
+        {/* Top view */}
+
+        <View
+          style={{
+            justifyContent: 'center',
+            paddingVertical: 30,
+            
+          }}>
+          <Text
+            style={{
+              fontSize: 30,
+              fontFamily: fonts.frutigebold,
+              alignSelf: 'center',
               justifyContent: 'center',
+              textAlign: 'center',
+              textAlignVertical: 'center',
+              alignItems: 'center',
+            }}>
+            Hello Again !
+          </Text>
+
+          <Text
+            style={{
+              fontSize: 14,
+              alignSelf: 'center',
+              marginTop: 15,
+              color: '#848484',
+              fontFamily: fonts.frutigebold ,
+            }}>
+            Sign into your account
+          </Text>
+        </View>
+
+        {/* CentreView */}
+        <View style={{paddingTop: 15, paddingBottom: 35}}>
+          {/* Email View */}
+          <TextInputView
+            placeholderText={'Email Address'}
+            onChange={i => setEmail(i)}
+            showText={email == '' ? false : true}
+            Text={'Email Address'}
+          />
+
+          {/* Password View */}
+          <PasswordView
+            placeholderText={'Password'}
+            Text={'Password'}
+            onChange={i => setPassword(i)}
+            showText={password == '' ? false : true}
+          />
+
+          <Text
+            style={{
+              fontSize: 12,
+              marginTop: 15,
+              color: 'black',
               marginLeft: 15,
+              fontFamily: fonts.frutigebold,
+            }}
+            onPress={() => navigation.navigate('Forget')}>
+            Forgot your password?
+          </Text>
+
+          <View style={{marginTop: 30}}>
+            <TouchableOpacity
+            activeOpacity={1}
+              onPress={() => {
+                navigation.navigate('Home');
+              }}
+              style={{
+                justifyContent: 'center',
+                backgroundColor: '#FFF200',
+                height: 55,
+                alignSelf: 'center',
+                width: windowWidth - 30,
+              }}>
+              <Text
+                style={{
+                  alignSelf: 'center',
+                  fontFamily: fonts.frutigebold,
+                  fontSize: 14,
+                }}>
+                Sign In
+              </Text>
+            </TouchableOpacity>
+
+            <View
+              style={{
+                flexDirection: 'row',
+                alignSelf: 'center',
+                marginTop: 20,
+              }}
+              onStartShouldSetResponder={() => navigation.navigate('SignUp')}>
+              <Text style={{color: '#707070', fontSize: 12}}>
+                Dont have an account ?{' '}
+                {
+                  <Text
+                    style={{
+                      color: '#AAA100',
+                      fontSize: 12,
+                      fontFamily: fonts.frutigebold,
+                      marginLeft: 5,
+                    }}>
+                    Sign Up
+                  </Text>
+                }
+              </Text>
+            </View>
+          </View>
+        </View>
+
+        {/* BottomView */}
+        <View
+          style={{
+            paddingVertical: 15,
+            width: windowWidth,
+            backgroundColor: '#F5F5F5',
+            justifyContent: 'center',
+            paddingBottom: 20,
+          }}>
+          <Text
+            style={{
+              fontSize: 12,
+              color: '#848484',
+              alignSelf: 'center',
+              fontFamily: fonts.frutigeregular,
+            }}>
+            Sign in with a social account
+          </Text>
+          <TouchableOpacity
+          activeOpacity={1}
+            style={{
+              flexDirection: 'row',
+              justifyContent: 'center',
+              borderWidth: 1,
+              borderColor: '#FF7144',
+              height: 58,
+              backgroundColor: '#FFE3E3',
+              marginLeft: 25,
+              marginRight: 25,
+              marginTop: 20,
             }}>
             <Image
-              style={{alignSelf: 'center'}}
-              source={require('../appimages/backicon.png')}
+              style={{alignSelf: 'center', marginHorizontal: 10}}
+              source={require('../appimages/finalgoogle.png')}
             />
-          </TouchableOpacity>
-
-          {/* Top view */}
-
-          <View
-            style={{
-              justifyContent: 'center',
-
-              paddingVertical: 20,
-            }}>
-            <Text
-              style={{
-                fontSize: 30,
-                fontFamily: 'Poppins-SemiBold',
-                alignSelf: 'center',
-                justifyContent: 'center',
-                textAlign: 'center',
-                textAlignVertical: 'center',
-                alignItems: 'center',
-              }}>
-              Hello Again !
-            </Text>
-
             <Text
               style={{
                 fontSize: 14,
+                fontFamily: fonts.frutigebold,
                 alignSelf: 'center',
-                marginTop: 7,
-                color: '#848484',
-                fontFamily: 'Poppins-Regular',
               }}>
-              Sign into your account
+              Sign in with Google
             </Text>
-          </View>
+          </TouchableOpacity>
 
-          {/* CentreView */}
-          <View style={{paddingTop: 15,paddingBottom:35}}>
-            {/* Email View */}
-            <View style={startWrite ? styles.startWrite : styles.stopWrite}>
-              {showMail ? (
-                <View style={{marginLeft: 15, marginBottom: 5}}>
-                  <Text style={{fontSize: 12}}>Email address</Text>
-                </View>
-              ) : null}
-
-              <TextInput
-                onChangeText={i => setEmail(i)}
-                onTouchStart={() => setStartWrite(true)}
-                onEndEditing={() => setStartWrite(false)}
-                // onTouchEnd={setStartWrite(false)}
-                placeholderTextColor={'#848484'}
-                style={{
-                  marginLeft: 15,
-                  color: 'black',
-                  fontSize: 16,
-                  fontFamily: 'Poppins-Medium',
-                }}
-                placeholder="Enter Email address"
-              />
-            </View>
-
-            {/* Password View */}
-            <View style={startPass ? styles.startPass : styles.stopPass}>
-              <View style={{flex: 1, justifyContent: 'center'}}>
-                {showPassword ? (
-                  <View style={{marginLeft: 15, marginBottom: 5}}>
-                    <Text style={{fontSize: 12}}>Password</Text>
-                  </View>
-                ) : null}
-
-                <TextInput
-                  style={{
-                    marginLeft: 15,
-                    fontSize: 16,
-                    fontFamily: 'Poppins-Medium',
-                  }}
-                  secureTextEntry={eye ? false : true}
-                  onTouchStart={() => setStartPass(true)}
-                  onEndEditing={() => setStartPass(false)}
-                  placeholder="Password"
-                  placeholderTextColor={'#848484'}
-                  onChangeText={text => setPassword(text)}
-                  value={password}
-                />
-              </View>
-              <Image
-                style={{alignSelf: 'center', marginHorizontal: 20}}
-                onStartShouldSetResponder={() => setEye(!eye)}
-                source={eye ? eyeOpen : eyeclosed}
-              />
-            </View>
-
-            <Text
-              style={{
-                fontSize: 12,
-                marginTop: 15,
-                color: 'black',
-                marginLeft: 15,
-                fontFamily: 'Poppins-Regular',
-              }}
-              onPress={() => fetchData()}>
-              Forgot your password?
-            </Text>
-
-            <View style={{marginTop: 30}}>
-              <TouchableOpacity
-                onPress={() => {
-                  logIn();
-                }}
-                style={{
-                  justifyContent: 'center',
-                  backgroundColor: '#FFF200',
-                  height: 55,
-                  alignSelf: 'center',
-                  width: windowWidth - 30,
-                }}>
-                <Text
-                  style={{
-                    alignSelf: 'center',
-                    fontFamily: 'Poppins-Medium',
-                    fontSize: 14,
-                  }}>
-                  Sign In
-                </Text>
-              </TouchableOpacity>
-
-              <View
-                style={{
-                  flexDirection: 'row',
-                  alignSelf: 'center',
-                  marginTop: 20,
-                }}
-                onStartShouldSetResponder={() => navigation.navigate('SignUp')}>
-                <Text style={{color: '#707070', fontSize: 12}}>
-                  Dont have an account ?{' '}
-                  {
-                    <Text
-                      style={{
-                        color: '#AAA100',
-                        fontSize: 12,
-                        fontFamily: 'Poppins-Bold',
-                        marginLeft: 5,
-                      }}>
-                      Sign Up
-                    </Text>
-                  }
-                </Text>
-                {/* <Text
-                  style={{
-                    color: '#AAA100',
-                    fontSize: 12,
-                    fontFamily: 'Poppins-Bold',
-                    marginLeft: 5,
-                  }}>
-                  Sign Up
-                </Text> */}
-              </View>
-            </View>
-          </View>
-
-          {/* BottomView */}
-          <View
+          <TouchableOpacity
+          activeOpacity={1}
             style={{
-              paddingVertical: 15,
-              width: windowWidth,
-
-              backgroundColor: '#F5F5F5',
+              flexDirection: 'row',
               justifyContent: 'center',
+              borderWidth: 1,
+              borderColor: '#879BFF',
+              height: 58,
+              backgroundColor: '#E4E8FF',
+              marginLeft: 25,
+              marginRight: 25,
+              marginTop: 20,
             }}>
+            <Image
+              style={{alignSelf: 'center', marginHorizontal: 10}}
+              source={require('../appimages/finalfblogo.png')}
+            />
             <Text
               style={{
-                fontSize: 12,
-                color: '#848484',
+                fontSize: 14,
+                fontFamily: fonts.frutigebold,
                 alignSelf: 'center',
-                fontFamily: 'Poppins-Regular',
               }}>
-              Sign in with a social account
+              Sign in with Facebook
             </Text>
-            <TouchableOpacity
-              style={{
-                flexDirection: 'row',
-                justifyContent: 'center',
-                borderWidth: 1,
-                borderColor: '#FF7144',
-                height: 58,
-                backgroundColor: '#FFE3E3',
-                marginLeft: 25,
-                marginRight: 25,
-                marginTop: 20,
-              }}>
-              <Image
-                style={{alignSelf: 'center', marginHorizontal: 10}}
-                source={require('../appimages/finalgoogle.png')}
-              />
-              <Text
-                style={{
-                  fontSize: 14,
-                  fontFamily: 'Poppins-Medium',
-                  alignSelf: 'center',
-                }}>
-                Sign in with Google
-              </Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-              style={{
-                flexDirection: 'row',
-                justifyContent: 'center',
-                borderWidth: 1,
-                borderColor: '#879BFF',
-                height: 58,
-                backgroundColor: '#E4E8FF',
-                marginLeft: 25,
-                marginRight: 25,
-                marginTop: 20,
-              }}>
-              <Image
-                style={{alignSelf: 'center', marginHorizontal: 10}}
-                source={require('../appimages/finalfblogo.png')}
-              />
-              <Text
-                style={{
-                  fontSize: 14,
-                  fontFamily: 'Poppins-Medium',
-                  alignSelf: 'center',
-                }}>
-                Sign in with Facebook
-              </Text>
-            </TouchableOpacity>
-          </View>
+          </TouchableOpacity>
         </View>
 
         {/* <View style={{backgroundColor: 'white'}}>
           <View style={{justifyContent: 'center'}}></View>
         </View> */}
-      </ScrollView>
+      </KeyboardAwareScrollView>
     </SafeAreaView>
   );
 };

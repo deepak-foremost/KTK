@@ -16,6 +16,9 @@ import {
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import eyeOpen from '../appimages/eyeopen.png';
 import eyeclosed from '../appimages/eye.png';
+import TextInputView from '../Component/TextInputView';
+import PasswordView from '../Component/PasswordView';
+import fonts from '../utils/FontUtils';
 
 const Profile = ({navigation}) => {
   const [start, setStart] = useState(false);
@@ -161,7 +164,7 @@ const Profile = ({navigation}) => {
 
   return (
     <SafeAreaView
-      style={{paddingHorizontal: 15, flex: 1, backgroundColor: 'black'}}>
+      style={{ flex: 1, backgroundColor: 'white'}}>
       <Modal visible={visible} animationType="slide" transparent={true}>
         <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
           <View style={{backgroundColor: 'yellow', padding: 5}}>
@@ -177,9 +180,7 @@ const Profile = ({navigation}) => {
               <Button
                 title="yes"
                 color={'black'}
-                onPress={() => {
-                  LogOut();
-                }}
+                
               />
               <Button
                 title="No"
@@ -194,32 +195,48 @@ const Profile = ({navigation}) => {
 
       <View
         style={{
-          justifyContent: 'space-between',
+          justifyContent: 'center',
+          alignItems: 'center',
           flexDirection: 'row',
           paddingHorizontal: 15,
-          paddingVertical: 25,
+          height: 55,
           backgroundColor: 'white',
+          borderBottomColor:'#E8E4E4',
+          borderBottomWidth:1
         }}>
-        <View style={{backgroundColor: '#FC5858', padding: 5}}>
+        <View
+          style={{
+            backgroundColor: '#FC5858',
+            padding: 5,
+            position: 'absolute',
+            left: 15,
+          }}>
           <Text
             style={{fontSize: 12, color: 'white'}}
-            onPress={() => {
-              setVisibile(true);
-              // LogOut();
-            }}>
+           >
             Log Out
           </Text>
         </View>
-        <Text style={{fontSize: 18, fontFamily: 'Poppins-Medium'}}>
+        <Text style={{fontSize: 18, fontFamily: fonts.frutigebold}}>
           Profile
         </Text>
-        <Image source={require('../appimages/finalnotification.png')} />
+
+        <TouchableOpacity
+          activeOpacity={1}
+          style={{position: 'absolute', right: 15}}
+          onPress={() => navigation.navigate('Notification')}>
+          <Image source={require('../appimages/finalnotification.png')} />
+        </TouchableOpacity>
       </View>
-      <View style={{height: 1, backgroundColor: '#E8E4E4'}}></View>
+     
 
       {/* TopView */}
 
-      <KeyboardAwareScrollView style={{backgroundColor: 'white'}}>
+      <KeyboardAwareScrollView
+        style={{backgroundColor: 'white'}}
+        keyboardShouldPersistTaps={'handled'}
+        showsVerticalScrollIndicator={false}
+        extraScrollHeight={30}>
         <View
           style={{justifyContent: 'center', flex: 0.5, paddingVertical: 25}}>
           <Image
@@ -229,7 +246,7 @@ const Profile = ({navigation}) => {
           <Text
             style={{
               fontSize: 16,
-              fontFamily: 'Poppins-Bold',
+              fontFamily: fonts.frutigebold,
               alignSelf: 'center',
               marginTop: 15,
             }}>
@@ -241,7 +258,7 @@ const Profile = ({navigation}) => {
               color: '#AAA100',
               alignSelf: 'center',
               marginTop: 10,
-              fontFamily: 'Poppins-Medium',
+              fontFamily: fonts.frutigeregular,
             }}>
             Upload Photo
           </Text>
@@ -249,100 +266,37 @@ const Profile = ({navigation}) => {
 
         {/* BottomView */}
         <View style={{paddingHorizontal: 15, flex: 1, paddingBottom: 40}}>
-          <View style={fadeName ? styles.startWrite : styles.stopWrite}>
-            {showName ? (
-              <View style={{marginLeft: 15, marginBottom: 5}}>
-                <Text style={{fontSize: 12}}>Full Name</Text>
-              </View>
-            ) : null}
+          <TextInputView
+            placeholderText={'Enter Full Name'}
+            onChange={i => setFirstName(i)}
+            showText={first_name == '' ? false : true}
+            Text={'Full Name'}
+          />
 
-            <TextInput
-              style={{
-                marginLeft: 15,
-                fontSize: 16,
-                fontFamily: 'Poppins-Medium',
-              }}
-              onTouchStart={() => setFadeName(true)}
-              onEndEditing={() => setFadeName(false)}
-              placeholder="Enter full name"
-              placeholderTextColor={'#848484'}
-              onChangeText={text => setFirstName(text)}
-            />
-          </View>
+          <TextInputView
+            placeholderText={'Email Address'}
+            onChange={i => setEmail(i)}
+            showText={email == '' ? false : true}
+            Text={'Email Address'}
+          />
 
-          <View style={fadeEmail ? styles.startWrite : styles.stopWrite}>
-            {showEmail ? (
-              <View style={{marginLeft: 15, marginBottom: 5}}>
-                <Text style={{fontSize: 12}}>Email Address</Text>
-              </View>
-            ) : null}
+          <PasswordView
+            placeholderText={'Password'}
+            Text={'Password'}
+            onChange={i => setPassword(i)}
+            showText={password == '' ? false : true}
+          />
 
-            <TextInput
-              style={{
-                marginLeft: 15,
-                fontSize: 16,
-                fontFamily: 'Poppins-Medium',
-              }}
-              onTouchStart={() => setFadeEmail(true)}
-              onEndEditing={() => setFadeEmail(false)}
-              placeholder="Email Address"
-              placeholderTextColor={'#848484'}
-              onChangeText={text => setEmail(text)}
-            />
-          </View>
-
-          <View style={fadePass ? styles.startPass : styles.stopPass}>
-            <View style={{flex: 1, justifyContent: 'center'}}>
-              {showPassword ? (
-                <View style={{marginLeft: 15, marginBottom: 5}}>
-                  <Text style={{fontSize: 12}}>Password</Text>
-                </View>
-              ) : null}
-
-              <TextInput
-                style={{
-                  marginLeft: 15,
-                  fontSize: 16,
-                  fontFamily: 'Poppins-Medium',
-                }}
-                secureTextEntry={eye ? false : true}
-                onTouchStart={() => setFadePass(true)}
-                onEndEditing={() => setFadePass(false)}
-                placeholder="Password"
-                placeholderTextColor={'#848484'}
-                onChangeText={text => setPassword(text)}
-                value={password}
-              />
-            </View>
-            <Image
-              style={{alignSelf: 'center', marginHorizontal: 20}}
-              onStartShouldSetResponder={() => setEye(!eye)}
-              source={eye ? eyeOpen : eyeclosed}
-            />
-          </View>
-
-          <View style={fadeNum ? styles.startWrite : styles.stopWrite}>
-            {showPhone ? (
-              <View style={{marginLeft: 15, marginBottom: 5}}>
-                <Text style={{fontSize: 12}}>Phone Number</Text>
-              </View>
-            ) : null}
-
-            <TextInput
-              style={{
-                marginLeft: 15,
-                fontSize: 16,
-                fontFamily: 'Poppins-Medium',
-              }}
-              onTouchStart={() => setFadeNum(true)}
-              onEndEditing={() => setFadeNum(false)}
-              placeholder="Phone Number "
-              placeholderTextColor={'#848484'}
-              onChangeText={text => setPhone(text)}
-            />
-          </View>
+          <TextInputView
+            placeholderText={'Phone Number '}
+            onChange={i => setPhone(i)}
+            showText={phone == '' ? false : true}
+            Text={'Phone Number'}
+            keyboardType={'numeric'}
+          />
 
           <TouchableOpacity
+          activeOpacity={1}
             style={{
               backgroundColor: '#FFF200',
               justifyContent: 'center',
@@ -355,7 +309,7 @@ const Profile = ({navigation}) => {
             <Text
               style={{
                 fontSize: 14,
-                fontFamily: 'Poppins-Medium',
+                fontFamily: fonts.frutigebold,
                 alignSelf: 'center',
               }}>
               Update
@@ -368,7 +322,7 @@ const Profile = ({navigation}) => {
               fontSize: 14,
               marginTop: 15,
               alignSelf: 'center',
-              fontFamily: 'Poppins-Medium',
+              fontFamily: fonts.frutigeregular,
             }}>
             DELETE ACCOUNT
           </Text>
@@ -400,7 +354,8 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     width: Dimensions.get('window').width - 25,
     alignSelf: 'center',
-  }, stopPass: {
+  },
+  stopPass: {
     marginTop: 15,
     borderWidth: 1,
     borderColor: '#A8A8A8',
@@ -410,8 +365,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     width: Dimensions.get('window').width - 25,
     alignSelf: 'center',
-    flexDirection:'row'
-  },startPass: {
+    flexDirection: 'row',
+  },
+  startPass: {
     marginTop: 15,
     borderWidth: 1,
     borderColor: '#A8A8A8',
@@ -421,7 +377,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     width: Dimensions.get('window').width - 25,
     alignSelf: 'center',
-    flexDirection:'row'
+    flexDirection: 'row',
   },
 });
 export default Profile;

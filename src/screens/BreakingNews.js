@@ -8,6 +8,7 @@ import {
   ScrollView,
   FlatList,
 } from 'react-native';
+import fonts from '../utils/FontUtils';
 
 const newsList = [
   {
@@ -15,43 +16,45 @@ const newsList = [
     heading:
       'November 29-30 & December 01 2021 in Deline NT virtually via Zoom PDF Documents available To download please select below:',
     src: require('../appimages/newsone.png'),
-    time: '25 Aug, 8:00 Pm',
+    time: '25 Aug, 8:00 PM',
   },
   {
     id: 1,
     heading:
       'November 29-30 & December 01 2021 in Deline NT virtually via Zoom PDF Documents available To download please select below::',
     src: require('../appimages/newstwo.png'),
-    time: '25 Aug, 8:00 Pm',
+    time: '25 Aug, 8:00 PM',
   },
   {
     id: 2,
     heading:
       'November 29-30 & December 01 2021 in Deline NT virtually via Zoom PDF Documents available To download please select below:',
     src: require('../appimages/newsthree.png'),
-    time: '25 Aug, 8:00 Pm',
+    time: '25 Aug, 8:00 PM',
   },
 ];
 
 const BreakingNews = ({navigation}) => {
   return (
-    <SafeAreaView style={{flex: 1, backgroundColor: 'black'}}>
+    <SafeAreaView style={{flex: 1, backgroundColor: 'white'}}>
       <View
         style={{
           flexDirection: 'row',
-          paddingVertical: 20,
-          justifyContent:'space-between',
-          backgroundColor:'white'
+          height: 55,
+          justifyContent: 'center',
+          backgroundColor: 'white',
+          alignItems: 'center',
         }}>
         <TouchableOpacity
-          onPress={() => navigation.navigate('Home', {name: 'jane'})}
+          activeOpacity={1}
+          onPress={() => navigation.goBack()}
           style={{
             backgroundColor: '#FFF200',
-            height:40,
-            width:40,
-            justifyContent:'center',
-
-            marginLeft: 15,
+            height: 35,
+            width: 35,
+            justifyContent: 'center',
+            position: 'absolute',
+            left: 15,
           }}>
           <Image
             style={{alignSelf: 'center'}}
@@ -59,26 +62,48 @@ const BreakingNews = ({navigation}) => {
           />
         </TouchableOpacity>
 
-        <Text style={{fontSize: 18,
-            
+        <Text
+          style={{
+            fontSize: 18,
+
             alignSelf: 'center',
-            fontFamily:'Poppins-Medium'}}>Breaking News</Text>
-        <View style={{flexDirection:'row',paddingRight:15}}> 
+            fontFamily: fonts.frutigebold,
+          }}>
+          Breaking News
+        </Text>
 
-        <Image
-          style={{alignSelf: 'center', marginRight: 20}}
-          source={require('../appimages/finalnotification.png')}
-        />
+        <View
+          style={{
+            position: 'absolute',
+            right: 0,
+            flexDirection: 'row',
+            justifyContent: 'center',
+          }}>
+          <TouchableOpacity
+          activeOpacity={1}
+            style={{justifyContent: 'center',paddingRight:15}}
+            onPress={() => navigation.navigate('Notification')}>
+            <Image
+              style={{alignSelf: 'center',}}
+              source={require('../appimages/notifydot.png')}
+            />
+          </TouchableOpacity>
 
-        <Image
-          style={{alignSelf: 'center',}}
-          source={require('../appimages/girlimg.png')}
-        />
+          <TouchableOpacity
+          activeOpacity={1}
+            style={{justifyContent: 'center',paddingRight:15,}}
+            onPress={() => navigation.navigate('Profile')}>
+            <Image
+              style={{alignSelf: 'center',height:35,width:35 }}
+              source={require('../appimages/girlimg.png')}
+            />
+          </TouchableOpacity>
         </View>
       </View>
 
       <FlatList
-        style={{backgroundColor:'white'}}
+        style={{backgroundColor: 'white'}}
+        showsVerticalScrollIndicator={false}
         data={newsList}
         renderItem={({item}) => (
           <View
@@ -91,23 +116,38 @@ const BreakingNews = ({navigation}) => {
               numberOfLines={2}
               style={{
                 fontSize: 20,
-                fontFamily:'Poppins-SemiBold',
+                fontFamily: fonts.frutigebold,
                 color: 'black',
                 marginTop: 10,
               }}>
               {item.heading}
             </Text>
-            <Image
-              onStartShouldSetResponder={() =>
-                navigation.navigate('BreakingDetail')
-              }
-              style={{height: 176, marginVertical: 10, flex: 1, width: '100%',}}
-              source={item.src}
-            />
-            <View style={{flexDirection: 'row', marginBottom: 10,}}>
-             <Image style={{alignSelf:'center'}} source={require('../appimages/clock.png')}/>
+            <TouchableOpacity
+              activeOpacity={1}
+              onPress={() => navigation.navigate('BreakingDetail')}>
+              <Image
+                style={{
+                  height: 176,
+                  marginVertical: 10,
+                  flex: 1,
+                  width: '100%',
+                }}
+                source={item.src}
+              />
+            </TouchableOpacity>
+            <View style={{flexDirection: 'row', marginBottom: 10}}>
+              <Image
+                style={{alignSelf: 'center'}}
+                source={require('../appimages/clock.png')}
+              />
 
-              <Text style={{color: '#848484', fontSize: 12, marginLeft: 10,fontFamily:'Poppins-Regular'}}>
+              <Text
+                style={{
+                  color: '#848484',
+                  fontSize: 12,
+                  marginLeft: 10,
+                  fontFamily: fonts.frutigeregular,
+                }}>
                 {item.time}
               </Text>
             </View>

@@ -2,6 +2,22 @@
   "migIndex": 1,
   "data": [
     {
+      "path": "src/assets/fonts/FTB.ttf",
+      "sha1": "d9d88a38a469f83eae5fd5fb8675dcd9e21fc16d"
+    },
+    {
+      "path": "src/assets/fonts/FTLC.ttf",
+      "sha1": "c2264ca42f4c4b4bc4e40c293378a2338508d70d"
+    },
+    {
+      "path": "src/assets/fonts/Frutiger-Bold.ttf",
+      "sha1": "13b8c5c3e39a10f14b5a72a995909f048052eaf1"
+    },
+    {
+      "path": "src/assets/fonts/Frutiger.ttf",
+      "sha1": "f0758cf062845de5e024803c7ed06586e687a7fc"
+    },
+    {
       "path": "src/assets/fonts/OFL.txt",
       "sha1": "8d6c34b70e3d638c82d7b5aba3f847f7d6d2c831"
     },

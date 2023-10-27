@@ -11,8 +11,10 @@ import {
   StyleSheet,
   useWindowDimensions,
   Dimensions,
+  StatusBar,
 } from 'react-native';
 import {FullWindowOverlay} from 'react-native-screens';
+import fonts from '../utils/FontUtils';
 
 const Information = ({navigation}) => {
   const [token, setToken] = useState('');
@@ -41,10 +43,11 @@ const Information = ({navigation}) => {
   const viewConfigRef = React.useRef({viewAreaCoveragePercentThreshold: 50});
 
   return (
-    <SafeAreaView style={{backgroundColor: 'black', flex: 1}}>
+    <SafeAreaView style={{backgroundColor: 'white', flex: 1}}>
       {/* topVie */}
+      <StatusBar barStyle={'dark-content'} backgroundColor={'#fff'} />
 
-      <View style={{flex: 1,backgroundColor:'white'}}>
+      <View style={{flex: 1, backgroundColor: 'white'}}>
         <FlatList
           contentContainerStyle={{backgroundColor: '#F2F2F2'}}
           horizontal={true}
@@ -61,7 +64,6 @@ const Information = ({navigation}) => {
                 backgroundColor: 'red',
                 flex: 1,
                 justifyContent: 'center',
-                
               }}>
               <Image
                 style={{
@@ -69,25 +71,24 @@ const Information = ({navigation}) => {
                   width: Dimensions.get('window').width,
                   borderColor: '#F2F2F2',
                   borderWidth: 5,
-                 
                 }}
                 source={item.src}
               />
             </View>
           )}
         />
-         <View
-        style={{
-          flexDirection: 'row',
-          justifyContent: 'center',
-          paddingVertical: 5,
-          marginTop: 10,
-          backgroundColor:'white'
-        }}>
-        <View style={count == 0 ? styles.swipe : styles.simple}></View>
-        <View style={count == 1 ? styles.swipe : styles.simple}></View>
-        <View style={count == 2 ? styles.swipe : styles.simple}></View>
-      </View>
+        <View
+          style={{
+            flexDirection: 'row',
+            justifyContent: 'center',
+            paddingVertical: 5,
+            marginTop: 10,
+            backgroundColor: 'white',
+          }}>
+          <View style={count == 0 ? styles.swipe : styles.simple}></View>
+          <View style={count == 1 ? styles.swipe : styles.simple}></View>
+          <View style={count == 2 ? styles.swipe : styles.simple}></View>
+        </View>
       </View>
 
       {/* <ScrollView contentContainerStyle={{backgroundColor: '#F2F2F2', flex: 1, justifyContent: 'center',width:'100%'}} horizontal={true}>
@@ -101,7 +102,6 @@ const Information = ({navigation}) => {
         />
           </ScrollView> */}
 
-     
       {/* <Image
         style={{alignSelf: 'center', marginTop: 10}}
         source={require('../appimages/border.png')}
@@ -110,21 +110,30 @@ const Information = ({navigation}) => {
       {/* BottomView */}
 
       <View
-        style={{flex: 1, justifyContent: 'space-around', paddingVertical: 10,backgroundColor:'white'}}>
+        style={{
+          flex: 1,
+          justifyContent: 'space-around',
+          paddingVertical: 10,
+          backgroundColor: 'white',
+        }}>
         <Text
           style={{
             fontSize: 30,
-            fontFamily: 'Poppins-SemiBold',
+            fontFamily: fonts.frutigebold,
             alignSelf: 'center',
             lineHeight: 40,
+            marginHorizontal: 15,
+            textAlign: 'center',
+            width:'75%',
+            alignSelf:'center'
           }}>
-          Safeguarding Our{'\n  '}Sahtu for Future{'\n      '}Generations.
+          Safeguarding Our Sahtu for Future Generations.
         </Text>
 
         <Text
           style={{
-            fontSize: 14,
-            fontFamily: 'Poppins-Regular',
+            fontSize: 16,
+            fontFamily: fonts.frutigeregular,
             lineHeight: 25,
             alignSelf: 'center',
             color: 'black',
@@ -136,6 +145,7 @@ const Information = ({navigation}) => {
         </Text>
 
         <TouchableOpacity
+          activeOpacity={1}
           style={{
             backgroundColor: '#FFF200',
             height: 58,
@@ -152,7 +162,7 @@ const Information = ({navigation}) => {
               fontSize: 14,
               color: 'black',
               alignSelf: 'center',
-              fontWeight: 'bold',
+              fontFamily: fonts.frutigebold,
             }}>
             Get Started
           </Text>

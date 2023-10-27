@@ -75,11 +75,11 @@ android {
 
     namespace "com.sahtu_v3"
     defaultConfig {
-        applicationId "com.sahtu_v3"
+        applicationId "com.sahtu"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
-        versionName "1.0"
+        versionName "1.01"
     }
     signingConfigs {
         debug {

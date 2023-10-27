@@ -1,6 +1,6 @@
 import * as React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {createStackNavigator,CardStyleInterpolators} from '@react-navigation/stack';
 import FlashMessage from 'react-native-flash-message';
 
 import SplashScreen from './src/screens/Splash';
@@ -17,8 +17,14 @@ import FaqsScreen from './src/screens/Faqs';
 import NotificationScreen from './src/screens/Notification';
 import ProfileScreen from './src/screens/Profile';
 import ClimateChangeScreen from './src/screens/ClimateChange';
+import MackenzieValley from './src/screens/MackenzieValley';
+import GreatBear from './src/screens/GreatBear';
+import Remidation from'./src/screens/Remediation';
+import ForgetScreen from './src/screens/ForgetScreen';
+import ForgetOtp from './src/screens/ForgetOtp';
+import NewPassword from './src/screens/NewPassword';
 
-const Stack = createNativeStackNavigator();
+const Stack = createStackNavigator();
 
 // function Root(){
 //   return (
@@ -49,7 +55,11 @@ const MyStack = () => {
   return ( 
     
     <NavigationContainer>
-      <Stack.Navigator>
+      <Stack.Navigator
+       screenOptions={{
+        headerShown: false,
+        cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
+      }}>
        
         <Stack.Screen
           name="Splash"
@@ -112,6 +122,36 @@ const MyStack = () => {
           name="ClimateChange"
           component={ClimateChangeScreen}
           // options={{headerShown: false}}
+        />
+         <Stack.Screen
+          name="Valley"
+          component={MackenzieValley}
+          options={{headerShown: false}}
+        />
+         <Stack.Screen
+          name="GreatBear"
+          component={GreatBear}
+          options={{headerShown: false}}
+        />
+         <Stack.Screen
+          name="Remidation"
+          component={Remidation}
+          options={{headerShown: false}}
+        />
+         <Stack.Screen
+          name="Forget"
+          component={ForgetScreen}
+          options={{headerShown: false}}
+        />
+         <Stack.Screen
+          name="ForgetOtp"
+          component={ForgetOtp}
+          options={{headerShown: false}}
+        />
+         <Stack.Screen
+          name="NewPassword"
+          component={NewPassword}
+          options={{headerShown: false}}
         />
       </Stack.Navigator>
     </NavigationContainer>

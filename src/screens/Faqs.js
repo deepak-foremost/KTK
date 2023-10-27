@@ -9,66 +9,73 @@ import {
   SectionList,
   ScrollView,
 } from 'react-native';
-import dropdown from '../appimages/dropdown.png';
-import dropUp from '../appimages/spinnerdown.png';
+import dropdown from '../appimages/dropup.png';
+import dropUp from '../appimages/dropdown.png';
+import fonts from '../utils/FontUtils';
 
 const list = [
   {
-    id:0,
+    id: 0,
     title: 'What is Shathu Article and how does it work ?',
-    show:false,
+    show: false,
     detail:
-      'Shatu Article is a news app that provides you with the latest and  most relevant news articles from various sources. Our app uses advanced algorithms to curate and deliver personalized news content based on your interests and preferences ',
+      'Sahtu Article is a news app that provides you with the latest and  most relevant news articles from various sources. Our app uses advanced algorithms to curate and deliver personalized news content based on your interests and preferences ',
   },
   {
-    id:1,
+    id: 1,
     title: 'What is Shathu Article and how does it work ?',
-    show:false,
+    show: false,
     detail:
-      'Shatu Article is a news app that provides you with the latest and  most relevant news articles from various sources. Our app uses advanced algorithms to curate and deliver personalized news content based on your interests and preferences ',
+      'Sahtu Article is a news app that provides you with the latest and  most relevant news articles from various sources. Our app uses advanced algorithms to curate and deliver personalized news content based on your interests and preferences ',
   },
   {
-    id:2,
+    id: 2,
     title: 'What is Shathu Article and how does it work ?',
-    show:false,
+    show: false,
     detail:
-      'Shatu Article is a news app that provides you with the latest and  most relevant news articles from various sources. Our app uses advanced algorithms to curate and deliver personalized news content based on your interests and preferences ',
+      'Sahtu Article is a news app that provides you with the latest and  most relevant news articles from various sources. Our app uses advanced algorithms to curate and deliver personalized news content based on your interests and preferences ',
   },
   {
-    id:3,
+    id: 3,
     title: 'What is Shathu Article and how does it work ?',
-    show:false,
+    show: false,
     detail:
-      'Shatu Article is a news app that provides you with the latest and  most relevant news articles from various sources. Our app uses advanced algorithms to curate and deliver personalized news content based on your interests and preferences ',
+      'Sahtu Article is a news app that provides you with the latest and  most relevant news articles from various sources. Our app uses advanced algorithms to curate and deliver personalized news content based on your interests and preferences ',
   },
 ];
 
 const Faqs = ({navigation}) => {
-  const [itemid,setItemid]=useState(-1);
+  const [itemid, setItemid] = useState(-1);
   const [show, setShow] = useState(true);
   var imgSrc = itemid == -1 ? dropdown : dropUp;
 
-  showhidetextcomponentview = (id) =>{
+  showhidetextcomponentview = id => {
     this.setstate({
-      replyboxshowid : id
-    })
- }
+      replyboxshowid: id,
+    });
+  };
 
   return (
-    <SafeAreaView style={{backgroundColor: 'black', flex: 1}}>
+    <SafeAreaView style={{backgroundColor: 'white', flex: 1}}>
       <View
         style={{
           flexDirection: 'row',
           justifyContent: 'center',
-          paddingVertical: 20,
+          height: 55,
           paddingHorizontal: 15,
-          backgroundColor:'white'
+          backgroundColor: 'white',
+          alignItems: 'center',
+          justifyContent: 'center',
         }}>
         <TouchableOpacity
+          activeOpacity={1}
           style={{
             backgroundColor: '#FFF200',
             justifyContent: 'center',
-            paddingHorizontal: 10,
+            height: 35,
+            width: 35,
+            position: 'absolute',
+            left: 15,
           }}
           onPress={() => navigation.navigate('Home')}>
           <Image
@@ -81,14 +88,13 @@ const Faqs = ({navigation}) => {
             fontSize: 18,
             flex: 1,
             textAlign: 'center',
-            fontFamily:'Poppins-Medium',
+            fontFamily: fonts.frutigebold,
             marginVertical: 10,
           }}>
           FAQs
         </Text>
       </View>
-      <View
-        style={{height: 1, backgroundColor: '#E8E4E4', }}></View>
+      <View style={{height: 1, backgroundColor: '#E8E4E4'}}></View>
       {/* <ScrollView>
         <View
           style={{
@@ -226,34 +232,36 @@ const Faqs = ({navigation}) => {
       </ScrollView> */}
 
       <FlatList
-      style={{backgroundColor:'white',paddingTop:10}}
+        style={{backgroundColor: 'white', paddingTop: 10}}
+        showsVerticalScrollIndicator={false}
         data={list}
-        renderItem={({item,index}) => (
+        renderItem={({item, index}) => (
           <View style={{backgroundColor: '#F5F5F5', marginTop: 10}}>
             <View
               style={{
                 backgroundColor: '#F5F5F5',
                 paddingVertical: 15,
-                flex: 1,
                 flexDirection: 'row',
-                justifyContent: 'center',
               }}
-              onStartShouldSetResponder={() => itemid==item.id ? setItemid(-1) :  setItemid(item.id) }>
-              <Text
-                style={{
-                  fontSize: 16,
-                  fontFamily:'Poppins-Medium',
-                  marginHorizontal: 15,
-                  flex: 1,
-                }}>
-                What is Shatu Article and how does it work ?
-              </Text>
+              onStartShouldSetResponder={() =>
+                itemid == item.id ? setItemid(-1) : setItemid(item.id)
+              }>
+              <View style={{marginRight:30,marginLeft:15}}>
+                <Text
+                  style={{
+                    fontSize: 16,
+                    fontFamily: fonts.frutigebold,
+                  }}>
+                  What is Sahtu Article and how does it work ?
+                </Text>
+              </View>
+
               <Image
-                style={{alignSelf: 'center', marginRight: 30}}
+                style={{alignSelf: 'center', position: 'absolute', right: 15}}
                 source={itemid == index ? dropUp : dropdown}
               />
             </View>
-            { itemid==index  ? (
+            {itemid == index ? (
               <View
                 style={{
                   backgroundColor: '#F5F5F5',
@@ -263,7 +271,7 @@ const Faqs = ({navigation}) => {
                 <Text
                   style={{
                     fontSize: 12,
-                    fontFamily:'Poppins-Regular',
+                    fontFamily: fonts.frutigebold,
                     color: 'black',
                     lineHeight: 20,
                   }}>

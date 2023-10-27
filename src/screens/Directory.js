@@ -12,6 +12,7 @@ import {
 } from 'react-native';
 import dropdown from '../appimages/spinup.png';
 import dropUp from '../appimages/spindown.png';
+import fonts from '../utils/FontUtils';
 
 const list = [
   {
@@ -89,23 +90,28 @@ const Directory = ({navigation}) => {
   const [show, setShow] = useState(true);
   const [itemid, setItemid] = useState(-1);
 
-  
   var ViewColor = itemid == -1 ? '#FFEBDC' : '#F2CAAC';
   return (
-    <SafeAreaView style={{backgroundColor: 'black', flex: 1}}>
+    <SafeAreaView style={{backgroundColor: 'white', flex: 1}}>
       <View
         style={{
           flexDirection: 'row',
           justifyContent: 'center',
-          padding: 15,
-          paddingVertical: 15,
-          backgroundColor:'white'
+          paddingHorizontal: 15,
+          height: 55,
+          backgroundColor: 'white',
+          justifyContent:'center',
+          alignItems:'center'
         }}>
         <TouchableOpacity
+          activeOpacity={1}
           style={{
             backgroundColor: '#FFF200',
             justifyContent: 'center',
-            paddingHorizontal: 10,
+            height: 35,
+            width: 35,
+            position:'absolute',
+            left:15
           }}
           onPress={() => navigation.navigate('Home')}>
           <Image
@@ -118,14 +124,13 @@ const Directory = ({navigation}) => {
             fontSize: 18,
             flex: 1,
             textAlign: 'center',
-            fontFamily:'Poppins-Medium',
+            fontFamily: fonts.frutigebold,
             marginVertical: 10,
           }}>
           Directory
         </Text>
       </View>
-      <View
-        style={{height: 1, backgroundColor: '#E8E4E4',}}></View>
+      <View style={{height: 1, backgroundColor: '#E8E4E4'}}></View>
       {/* <ScrollView>
         <View
           style={{
@@ -250,13 +255,14 @@ const Directory = ({navigation}) => {
       </ScrollView> */}
 
       <FlatList
-      style={{backgroundColor:'white'}}
+        style={{backgroundColor: 'white'}}
+        showsVerticalScrollIndicator={false}
         data={list}
-        renderItem={({item,index}) => (
+        renderItem={({item, index}) => (
           <View style={{}}>
             <View
               style={{
-                backgroundColor: itemid==index ? '#F2CAAC' : '#FFEBDC',
+                backgroundColor: itemid == index ? '#F2CAAC' : '#FFEBDC',
                 justifyContent: 'space-between',
                 flexDirection: 'row',
                 marginHorizontal: 15,
@@ -264,27 +270,31 @@ const Directory = ({navigation}) => {
                 paddingVertical: 20,
                 marginTop: 15,
               }}
-              onStartShouldSetResponder={() => itemid==item.id ? setItemid(-1) :  setItemid(item.id) }>
-              <Text style={{fontSize: 18, fontFamily:'Poppins-Medium'}}>
+              onStartShouldSetResponder={() =>
+                itemid == item.id ? setItemid(-1) : setItemid(item.id)
+              }>
+              <Text style={{fontSize: 18, fontFamily: fonts.frutigebold}}>
                 {item.article}
               </Text>
-              
-              <Image style={{alignSelf: 'center'}} source={itemid==index ?  dropUp : dropdown } />
+
+              <Image
+                style={{alignSelf: 'center'}}
+                source={itemid == index ? dropUp : dropdown}
+              />
             </View>
-            <View style={{height:1,}}></View>
-            {itemid==index ? (
+            <View style={{height: 1}}></View>
+            {itemid == index ? (
               <View
                 style={{
-                  backgroundColor:itemid==index ? '#F2CAAC' : '#FFEBDC',
+                  backgroundColor: itemid == index ? '#F2CAAC' : '#FFEBDC',
                   marginHorizontal: 15,
                   paddingHorizontal: 10,
-                  paddingTop:15
-                  
+                  paddingTop: 15,
                 }}>
                 <Text
                   style={{
                     fontSize: 12,
-                    fontFamily:'Poppins-Medium',
+                    fontFamily: fonts.frutigebold,
                     color: 'black',
                     lineHeight: 20,
                   }}>
@@ -297,8 +307,7 @@ const Directory = ({navigation}) => {
                     item.data.at(3) +
                     '\n' +
                     item.data.at(4) +
-                    '\n' 
-                    }
+                    '\n'}
                 </Text>
               </View>
             ) : null}

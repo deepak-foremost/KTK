@@ -7,8 +7,9 @@ import {
   Text,
   TouchableOpacity,
   View,
-  Platform
+  Platform,
 } from 'react-native';
+import fonts from '../utils/FontUtils';
 
 const list = [
   {
@@ -31,22 +32,28 @@ const list = [
 
 const Calendar = ({navigation}) => {
   return (
-    <SafeAreaView style={{paddingTop: 15, backgroundColor: 'black',flex:1}}>
-     
+    <SafeAreaView style={{paddingTop: 15, backgroundColor: 'white', flex: 1}}>
       <View
         style={{
           flexDirection: 'row',
           justifyContent: 'center',
           paddingHorizontal: 15,
-          paddingVertical: 20,
-          backgroundColor:'white'
+          height: 55,
+          backgroundColor: 'white',
+          alignItems: 'center',
         }}>
         <TouchableOpacity
+          activeOpacity={1}
+          onPress={() => navigation.goBack()}
           style={{
             backgroundColor: '#FFF200',
             justifyContent: 'center',
             paddingHorizontal: 10,
-          }} onPress={()=> navigation.navigate('Home')}>
+            height: 35,
+            width: 35,
+            position: 'absolute',
+            left: 15,
+          }}>
           <Image
             style={{alignSelf: 'center'}}
             source={require('../appimages/backicon.png')}
@@ -57,16 +64,15 @@ const Calendar = ({navigation}) => {
             fontSize: 18,
             flex: 1,
             textAlign: 'center',
-            fontFamily:'Poppins-Medium',
-            marginVertical: 10,
+            fontFamily: fonts.frutigebold,
           }}>
           Calendar
         </Text>
       </View>
-      <View style={{backgroundColor:'#E8E4E4',height:1,}}></View>
+      <View style={{backgroundColor: '#E8E4E4', height: 1}}></View>
       <FlatList
-      style={{backgroundColor:'white',paddingTop:10}}
-        
+        style={{backgroundColor: 'white', paddingTop: 10}}
+        showsVerticalScrollIndicator={false}
         data={list}
         renderItem={({item}) => (
           <View
@@ -74,36 +80,47 @@ const Calendar = ({navigation}) => {
               flexDirection: 'row',
               backgroundColor: '#F5F5F5',
               marginVertical: 5,
-              paddingRight:10
+              paddingRight: 10,
             }}>
             <View
               style={{
                 backgroundColor: '#E8A23F',
                 justifyContent: 'center',
-                alignSelf:'center',
-                width:51,
-                height:51,
-                marginLeft:15
-                
+                alignSelf: 'center',
+                width: 45,
+                height: 45,
+                marginLeft: 15,
               }}>
-              <Text style={{fontFamily:'Poppins-Medium', fontSize: 19,alignSelf:'center'}}>
+              <Text
+                style={{
+                  fontFamily: fonts.frutigebold,
+                  fontSize: 19,
+                  alignSelf: 'center',
+                }}>
                 {item.date.slice(0, 2)}
               </Text>
-              <Text style={{fontFamily:'Poppins-Medium',alignSelf:'center',fontSize:13,marginTop:-4}}>{item.date.slice(2)}</Text>
+              <Text
+                style={{
+                  fontFamily: fonts.frutigebold,
+                  alignSelf: 'center',
+                  fontSize: 13,
+                }}>
+                {item.date.slice(2)}
+              </Text>
             </View>
-            <Text
-              style={{
-                fontSize: 16,
-                fontFamily:'Poppins-Medium',
-                textAlignVertical: 'center',
-                paddingVertical: 20,
-                width:'80%',
-                marginLeft:15
-                
-                
-              }}>
-              {item.heading}
-            </Text>
+            <View style={{marginRight:15,flex:1}}>
+              <Text
+                style={{
+                  fontSize: 16,
+                  fontFamily: fonts.frutigeregular,
+                  textAlignVertical: 'center',
+                  paddingVertical: 20,
+                  lineHeight:20,
+                  marginLeft: 15,
+                }}>
+                {item.heading}
+              </Text>
+            </View>
           </View>
         )}
       />

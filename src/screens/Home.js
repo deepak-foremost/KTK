@@ -7,13 +7,14 @@ import {
   TouchableOpacity,
   SafeAreaView,
 } from 'react-native';
+import HomeButtons from '../Component/HomeButtons';
+import fonts from '../utils/FontUtils';
 
 const Home = ({navigation}) => {
   return (
-    <SafeAreaView style={{flex: 1, backgroundColor: 'black'}}>
+    <SafeAreaView style={{flex: 1, backgroundColor: 'white'}}>
       <View
         style={{
-          paddingVertical: 8,
           backgroundColor: 'white',
           flex: 1,
         }}>
@@ -21,14 +22,15 @@ const Home = ({navigation}) => {
           style={{
             flexDirection: 'row',
             justifyContent: 'center',
-            paddingVertical: 25,
+            height: 55,
+            alignItems: 'center',
           }}>
           <Text
             style={{
               fontSize: 18,
               color: 'black',
               alignSelf: 'center',
-              fontFamily: 'Poppins-Medium',
+              fontFamily: fonts.frutigebold,
             }}>
             Home
           </Text>
@@ -37,21 +39,26 @@ const Home = ({navigation}) => {
               position: 'absolute',
               right: 0,
               flexDirection: 'row',
-              alignSelf: 'center',
             }}>
-            <Image
-              onStartShouldSetResponder={() =>
-                navigation.navigate('Notification')
-              }
-              style={{alignSelf: 'center', marginRight: 20}}
-              source={require('../appimages/notifydot.png')}
-            />
+            <TouchableOpacity
+            activeOpacity={1}
+              style={{justifyContent: 'center'}}
+              onPress={() => navigation.navigate('Notification')}>
+              <Image
+                style={{alignSelf: 'center', marginRight: 20}}
+                source={require('../appimages/notifydot.png')}
+              />
+            </TouchableOpacity>
 
-            <Image
-              onStartShouldSetResponder={() => navigation.navigate('Profile')}
-              style={{alignSelf: 'center', marginRight:15}}
-              source={require('../appimages/girlimg.png')}
-            />
+            <TouchableOpacity
+            activeOpacity={1}
+              style={{justifyContent: 'center'}}
+              onPress={() => navigation.navigate('Profile')}>
+              <Image
+                style={{alignSelf: 'center', marginRight: 20,width:35,height:35}}
+                source={require('../appimages/girlimg.png')}
+              />
+            </TouchableOpacity>
           </View>
         </View>
 
@@ -63,164 +70,71 @@ const Home = ({navigation}) => {
             backgroundColor: 'white',
           }}
           showsVerticalScrollIndicator={false}>
-          <TouchableOpacity
-            style={{
-              backgroundColor: '#E2976D',
-              height: 55,
-              justifyContent: 'center',
-              marginTop: 15,
-            }}
-            onPress={() => navigation.navigate('BreakingNews', {name: 'jane'})}>
-            <Text
-              style={{
-                fontSize: 16,
-                alignSelf: 'center',
-                fontFamily: 'Poppins-SemiBold',
-              }}>
-              BREAKING NEWS
-            </Text>
-          </TouchableOpacity>
+          <HomeButtons
+            text={'BREAKING NEWS'}
+            onPress={() => navigation.navigate('BreakingNews', {name: 'jane'})}
+            style={{backgroundColor: '#E2976D'}}
+          />
 
-          <TouchableOpacity
-            style={{
-              backgroundColor: '#9EA9C7',
-              height: 55,
-              justifyContent: 'center',
-              marginTop: 15,
-            }}>
-            <Text
-              style={{
-                fontSize: 16,
-                alignSelf: 'center',
-                fontFamily: 'Poppins-SemiBold',
-              }}>
-              MCKENZIE VALLEY HIGHWAY
-            </Text>
-          </TouchableOpacity>
+          <HomeButtons
+            text={'MACKENZIE VALLEY'}
+            onPress={()=> navigation.navigate('Valley', {name: 'jane'})}
+            style={{backgroundColor: '#9EA9C7'}}
+          />
 
-          <TouchableOpacity
-            style={{
-              backgroundColor: '#9BB75E',
-              height: 55,
-              justifyContent: 'center',
-              marginTop: 15,
-            }}>
-            <Text
-              style={{
-                fontSize: 16,
-                alignSelf: 'center',
-                fontFamily: 'Poppins-SemiBold',
-              }}>
-              SCHOLARSHIPS
-            </Text>
-          </TouchableOpacity>
+          <HomeButtons
+            text={'SCHOLARSHIPS'}
+            // onPress={()=> navigation.navigate('BreakingNews', {name: 'jane'})}
+            style={{backgroundColor: '#9BB75E'}}
+          />
 
-          <TouchableOpacity
-            style={{
-              backgroundColor: '#E2976D',
-              height: 55,
-              justifyContent: 'center',
-              marginTop: 15,
-            }}
-            onPress={() => navigation.navigate('ClimateChange')}>
-            <Text
-              style={{
-                fontSize: 16,
-                alignSelf: 'center',
-                fontFamily: 'Poppins-SemiBold',
-              }}>
-              CLIMATE CHANGE
-            </Text>
-          </TouchableOpacity>
+          <HomeButtons
+            text={'CLIMATE CHANGE'}
+            // onPress={() => navigation.navigate('BreakingNews', {name: 'jane'})}
+            style={{backgroundColor: '#E2976D'}}
+          />
 
-          <TouchableOpacity
-            style={{
-              backgroundColor: '#9EA9C7',
-              height: 55,
-              justifyContent: 'center',
-              marginTop: 15,
-            }}>
-            <Text
-              style={{
-                fontSize: 16,
-                alignSelf: 'center',
-                fontFamily: 'Poppins-SemiBold',
-              }}>
-              OILFIELD RECLAMATION CENTER
-            </Text>
-          </TouchableOpacity>
+          <HomeButtons
+            text={'RECLAMATION CENTER'}
+            // onPress={() => navigation.navigate()}
+            style={{backgroundColor: '#9EA9C7'}}
+          />
 
-          <TouchableOpacity
-            style={{
-              backgroundColor: '#E8A23F',
-              height: 55,
-              justifyContent: 'center',
-              marginTop: 15,
-            }}
-            onPress={() => navigation.navigate('Calendar')}>
-            <Text
-              style={{
-                fontSize: 16,
-                alignSelf: 'center',
-                fontFamily: 'Poppins-SemiBold',
-              }}>
-              CALENDAR
-            </Text>
-          </TouchableOpacity>
+          <HomeButtons
+            text={'REMEDIATION'}
+            onPress={() => navigation.navigate('Remidation')}
+            style={{backgroundColor: '#CEC983'}}
+          />
 
-          <TouchableOpacity
-            style={{
-              backgroundColor: '#F2CAAC',
-              height: 55,
-              justifyContent: 'center',
-              marginTop: 15,
-            }}
-            onPress={() => navigation.navigate('Directory')}>
-            <Text
-              style={{
-                fontSize: 16,
-                alignSelf: 'center',
-                fontFamily: 'Poppins-SemiBold',
-              }}>
-              DIRECTORY
-            </Text>
-          </TouchableOpacity>
+          <HomeButtons
+            text={'SAHTU HERITAGE'}
+            // onPress={() => navigation.navigate('BreakingNews', {name: 'jane'})}
+            style={{backgroundColor: '#5EB7AE'}}
+          />
 
-          <TouchableOpacity
+          <HomeButtons
+            text={'CALENDAR'}
+            onPress={() => navigation.navigate('Calendar')}
+            style={{backgroundColor: '#E8A23F'}}
+          />
+
+          <HomeButtons
+            text={'DIRECTORY'}
+            onPress={() => navigation.navigate('Directory')}
+            style={{backgroundColor: '#F2CAAC'}}
+          />
+
+          <HomeButtons
+            text={'CONTACT US'}
             onPress={() => navigation.navigate('ContactUs')}
-            style={{
-              backgroundColor: '#D96231',
-              height: 55,
-              justifyContent: 'center',
-              marginTop: 15,
-            }}>
-            <Text
-              style={{
-                fontSize: 16,
-                alignSelf: 'center',
-                fontFamily: 'Poppins-SemiBold',
-              }}>
-              CONTACT US
-            </Text>
-          </TouchableOpacity>
+            style={{backgroundColor: '#D96231'}}
+          />
 
-          <TouchableOpacity
-            style={{
-              backgroundColor: '#518FDE',
-              height: 55,
-              justifyContent: 'center',
-              marginTop: 15,
-            }}
-            onPress={() => navigation.navigate('Faqs')}>
-            <Text
-              style={{
-                fontSize: 16,
-                alignSelf: 'center',
-                fontFamily: 'Poppins-SemiBold',
-              }}>
-              FAQS
-            </Text>
-          </TouchableOpacity>
+          <HomeButtons
+            text={'FAQS'}
+            onPress={() => navigation.navigate('Faqs')}
+            style={{backgroundColor: '#518FDE'}}
+          />
 
           <View style={{marginTop: 30, marginBottom: 20}}>
             <Image
@@ -233,7 +147,7 @@ const Home = ({navigation}) => {
               style={{
                 color: '#707070',
                 fontSize: 11,
-                fontFamily: 'Poppins-Bold',
+                fontFamily: fonts.frutigebold,
                 alignSelf: 'center',
                 marginTop: 10,
               }}>
