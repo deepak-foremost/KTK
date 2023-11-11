@@ -12,6 +12,8 @@ import TextInputView from '../Component/TextInputView';
 import HomeButtons from '../Component/HomeButtons';
 import OTPInputView from '@twotalltotems/react-native-otp-input';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import * as RootNavigation from '../utils/RootNavigation';
+import Constants from '../utils/Constants';
 
 const ForgetOtp = ({navigation}) => {
   return (
@@ -26,7 +28,8 @@ const ForgetOtp = ({navigation}) => {
             marginTop: 10,
             justifyContent: 'center',
             marginLeft: 15,
-          }} onPress={()=> navigation.goBack()}>
+          }}
+          onPress={() => navigation.goBack()}>
           <Image
             style={{alignSelf: 'center'}}
             source={require('../appimages/backicon.png')}
@@ -81,11 +84,9 @@ const ForgetOtp = ({navigation}) => {
             }}
           />
 
-         
-
           <HomeButtons
             text={'Set New Password'}
-            onPress={()=> navigation.navigate('NewPassword')}
+            onPress={() => RootNavigation.navigate(Constants.NEW_PASSWORD_SCREEN)}
             style={{backgroundColor: '#FFF200'}}
           />
         </View>
@@ -99,7 +100,7 @@ const styles = StyleSheet.create({
     height: 45,
     borderWidth: 0,
     borderBottomWidth: 3,
-    color:'black',
+    color: 'black',
     fontSize: 18,
     fontFamily: 'Nunito-SemiBold',
   },

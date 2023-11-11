@@ -19,6 +19,8 @@ import eyeclosed from '../appimages/eye.png';
 import TextInputView from '../Component/TextInputView';
 import PasswordView from '../Component/PasswordView';
 import fonts from '../utils/FontUtils';
+import * as RootNavigation from '../utils/RootNavigation';
+import Constants from '../utils/Constants';
 
 const Profile = ({navigation}) => {
   const [start, setStart] = useState(false);
@@ -163,33 +165,112 @@ const Profile = ({navigation}) => {
   };
 
   return (
-    <SafeAreaView
-      style={{ flex: 1, backgroundColor: 'white'}}>
-      <Modal visible={visible} animationType="slide" transparent={true}>
-        <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-          <View style={{backgroundColor: 'yellow', padding: 5}}>
-            <Text style={{padding: 15, fontSize: 16}}>
-              Are you sure you want to Log Out ?
+    <SafeAreaView style={{flex: 1, backgroundColor: 'white'}}>
+      <Modal visible={visible} animationType="fade" transparent={true}>
+        <TouchableOpacity
+          activeOpacity={1}
+          onPress={() => setVisibile(false)}
+          style={{
+            flex: 1,
+            justifyContent: 'center',
+            alignItems: 'center',
+            backgroundColor: 'rgba(0,0,0,0.6)',
+          }}>
+          <View
+            style={{
+              backgroundColor: 'white',
+              padding: 5,
+              height: 205,
+              width: '75%',
+              borderRadius: 15,
+              shadowColor: 'black',
+              shadowOffset: {width: 0, height: 0},
+              shadowRadius: 15,
+              shadowOpacity: 0.5,
+              elevation: 10,
+            }}>
+            <Image
+              style={{
+                height: 50,
+                width: 50,
+                tintColor: '#FFF200',
+                alignSelf: 'center',
+                marginTop: 10,
+              }}
+              source={require('../appimages/warning.png')}
+            />
+            <Text
+              style={{
+                paddingHorizontal: 15,
+                marginVertical: 10,
+                fontSize: 16,
+                color: 'black',
+                fontFamily: fonts.frutigeregular,
+                color: 'black',
+                alignSelf: 'center',
+              }}>
+              Are you leaving?
             </Text>
+            <Text
+              style={{
+                paddingHorizontal: 15,
+                fontSize: 12,
+                color: '#848484',
+                fontFamily: fonts.frutigeregular,
+                textAlign: 'center',
+                alignSelf: 'center',
+                lineHeight: 15,
+              }}>
+              Are you sure you want to log out of your account?
+            </Text>
+
             <View
               style={{
                 flexDirection: 'row',
                 padding: 5,
                 alignSelf: 'flex-end',
+                marginRight: -30,
+                marginTop: 15,
               }}>
-              <Button
-                title="yes"
-                color={'black'}
-                
-              />
-              <Button
-                title="No"
-                color={'black'}
+              <Text
                 onPress={() => setVisibile(false)}
-              />
+                style={{
+                  alignSelf: 'center',
+                  padding: 8,
+                  marginRight: 20,
+                  color: '#848484',
+                  fontFamily: fonts.frutigeregular,
+                  fontSize: 16,
+                }}>
+                Cancel
+              </Text>
+
+              <TouchableOpacity
+                activeOpacity={1}
+                style={{
+                  backgroundColor: '#FFF200',
+                  justifyContent: 'center',
+                  borderRadius: 8,
+                  paddingHorizontal: 15,
+                  shadowColor: 'black',
+                  shadowOpacity: 0.5,
+                  shadowRadius: 15,
+                  shadowOffset: {height: 5, width: 0},
+                  elevation: 8,
+                }}>
+                <Text
+                  style={{
+                    fontSize: 14,
+                    fontFamily: fonts.frutigebold,
+                    alignSelf: 'center',
+                    textAlignVertical: 'center',
+                  }}>
+                  Yes →
+                </Text>
+              </TouchableOpacity>
             </View>
           </View>
-        </View>
+        </TouchableOpacity>
       </Modal>
       {/* Toolbar view  */}
 
@@ -201,22 +282,22 @@ const Profile = ({navigation}) => {
           paddingHorizontal: 15,
           height: 55,
           backgroundColor: 'white',
-          borderBottomColor:'#E8E4E4',
-          borderBottomWidth:1
+          borderBottomColor: '#E8E4E4',
+          borderBottomWidth: 1,
         }}>
-        <View
+        <TouchableOpacity
+          activeOpacity={1}
+          onPress={() => setVisibile(true)}
           style={{
             backgroundColor: '#FC5858',
             padding: 5,
             position: 'absolute',
             left: 15,
           }}>
-          <Text
-            style={{fontSize: 12, color: 'white'}}
-           >
+          <Text style={{fontSize: 12, color: 'white', opacity: 1}}>
             Log Out
           </Text>
-        </View>
+        </TouchableOpacity>
         <Text style={{fontSize: 18, fontFamily: fonts.frutigebold}}>
           Profile
         </Text>
@@ -224,11 +305,12 @@ const Profile = ({navigation}) => {
         <TouchableOpacity
           activeOpacity={1}
           style={{position: 'absolute', right: 15}}
-          onPress={() => navigation.navigate('Notification')}>
+          onPress={() =>
+            RootNavigation.navigate(Constants.NOTIFICATION_SCREEN)
+          }>
           <Image source={require('../appimages/finalnotification.png')} />
         </TouchableOpacity>
       </View>
-     
 
       {/* TopView */}
 
@@ -296,7 +378,7 @@ const Profile = ({navigation}) => {
           />
 
           <TouchableOpacity
-          activeOpacity={1}
+            activeOpacity={1}
             style={{
               backgroundColor: '#FFF200',
               justifyContent: 'center',

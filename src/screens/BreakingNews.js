@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,
   Text,
@@ -9,32 +9,44 @@ import {
   FlatList,
 } from 'react-native';
 import fonts from '../utils/FontUtils';
+import * as RootNavigation from '../utils/RootNavigation';
+import Constants from '../utils/Constants';
+import {getNews} from '../networking/CallApi';
 
 const newsList = [
   {
     id: 0,
     heading:
-      'November 29-30 & December 01 2021 in Deline NT virtually via Zoom PDF Documents available To download please select below:',
+      'November 29-30 & December 01 2021 in Délı̨nę NT virtually via Zoom PDF Documents available To download please select below:',
     src: require('../appimages/newsone.png'),
     time: '25 Aug, 8:00 PM',
+    details:
+      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed doeiusmod tempor incididunt ut labore et dolore magna aliqua. Utenim ad minim veniam, quis nostrud exercitation ullamco laborisnisi ut aliquip ex ea commodo consequat.Lorem ipsum dolor sitamet, consectetur adipiscing elit sed do eiusmod temporincididunt ut labore et dolore magna aliqua. Cursus vitae conguemauris rhoncus aenean vel. Lacus vel facilisis volutpat estvelit egestas dui id ornare. Aenean vel elit scelerisque mauris',
   },
   {
     id: 1,
     heading:
-      'November 29-30 & December 01 2021 in Deline NT virtually via Zoom PDF Documents available To download please select below::',
+      'November 29-30 & December 01 2021 in Délı̨nę NT virtually via Zoom PDF Documents available To download please select below::',
     src: require('../appimages/newstwo.png'),
     time: '25 Aug, 8:00 PM',
   },
   {
     id: 2,
     heading:
-      'November 29-30 & December 01 2021 in Deline NT virtually via Zoom PDF Documents available To download please select below:',
+      'November 29-30 & December 01 2021 in Délı̨nę NT virtually via Zoom PDF Documents available To download please select below:',
     src: require('../appimages/newsthree.png'),
     time: '25 Aug, 8:00 PM',
   },
 ];
 
 const BreakingNews = ({navigation}) => {
+  const [news, setNews] = useState([]);
+
+  useEffect(() => {
+    getNews({}, onSuccess => {
+      setNews(onSuccess?.data);
+    });
+  }, [news, setNews]);
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: 'white'}}>
       <View
@@ -80,24 +92,26 @@ const BreakingNews = ({navigation}) => {
             justifyContent: 'center',
           }}>
           <TouchableOpacity
-          activeOpacity={1}
-            style={{justifyContent: 'center',paddingRight:15}}
-            onPress={() => navigation.navigate('Notification')}>
+            activeOpacity={1}
+            style={{justifyContent: 'center', paddingRight: 15}}
+            onPress={() =>
+              RootNavigation.navigate(Constants.NOTIFICATION_SCREEN)
+            }>
             <Image
-              style={{alignSelf: 'center',}}
+              style={{alignSelf: 'center'}}
               source={require('../appimages/notifydot.png')}
             />
           </TouchableOpacity>
 
-          <TouchableOpacity
+          {/* <TouchableOpacity
           activeOpacity={1}
             style={{justifyContent: 'center',paddingRight:15,}}
-            onPress={() => navigation.navigate('Profile')}>
+            onPress={() => RootNavigation.navigate(Constants.PROFILE_SCREEN)}>
             <Image
               style={{alignSelf: 'center',height:35,width:35 }}
               source={require('../appimages/girlimg.png')}
             />
-          </TouchableOpacity>
+          </TouchableOpacity> */}
         </View>
       </View>
 
@@ -124,7 +138,11 @@ const BreakingNews = ({navigation}) => {
             </Text>
             <TouchableOpacity
               activeOpacity={1}
-              onPress={() => navigation.navigate('BreakingDetail')}>
+              onPress={() =>
+                RootNavigation.navigate(Constants.NEWS_DETAIL_SCREEN, {
+                  item: item,
+                })
+              }>
               <Image
                 style={{
                   height: 176,

@@ -21,6 +21,8 @@ import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import TextInputView from '../Component/TextInputView';
 import PasswordView from '../Component/PasswordView';
 import fonts from '../utils/FontUtils';
+import * as RootNavigation from '../utils/RootNavigation';
+import Constants from '../utils/Constants';
 
 const LogIn = ({navigation}) => {
   const windowWidth = Dimensions.get('window').width;
@@ -94,7 +96,7 @@ const LogIn = ({navigation}) => {
     } catch (error) {
       // Error saving data
     }
-  };
+  };   
 
   const fetchData = async () => {
     try {
@@ -128,12 +130,12 @@ const LogIn = ({navigation}) => {
   return (
     <SafeAreaView style={{backgroundColor: 'white', flex: 1}}>
       <TouchableOpacity
-      activeOpacity={1}
-        onPress={() => navigation.replace('Information')}
+        activeOpacity={1}
+        onPress={() => RootNavigation.goBack()}
         style={{
           backgroundColor: '#FFF200',
-          height:35,
-          width:35,
+          height: 35,
+          width: 35,
           marginTop: 10,
           marginVertical: 10,
 
@@ -146,7 +148,7 @@ const LogIn = ({navigation}) => {
         />
       </TouchableOpacity>
       <KeyboardAwareScrollView
-       showsVerticalScrollIndicator={false}
+        showsVerticalScrollIndicator={false}
         contentContainerStyle={{flexGrow: 1}}
         keyboardShouldPersistTaps={'handled'}>
         {/* Top view */}
@@ -155,7 +157,6 @@ const LogIn = ({navigation}) => {
           style={{
             justifyContent: 'center',
             paddingVertical: 30,
-            
           }}>
           <Text
             style={{
@@ -176,7 +177,7 @@ const LogIn = ({navigation}) => {
               alignSelf: 'center',
               marginTop: 15,
               color: '#848484',
-              fontFamily: fonts.frutigebold ,
+              fontFamily: fonts.frutigebold,
             }}>
             Sign into your account
           </Text>
@@ -208,15 +209,15 @@ const LogIn = ({navigation}) => {
               marginLeft: 15,
               fontFamily: fonts.frutigebold,
             }}
-            onPress={() => navigation.navigate('Forget')}>
+            onPress={() => RootNavigation.navigate(Constants.FORGET_SCREEN)}>
             Forgot your password?
           </Text>
 
           <View style={{marginTop: 30}}>
             <TouchableOpacity
-            activeOpacity={1}
+              activeOpacity={1}
               onPress={() => {
-                navigation.navigate('Home');
+                RootNavigation.navigate(Constants.HOME_SCREEN);
               }}
               style={{
                 justifyContent: 'center',
@@ -241,7 +242,9 @@ const LogIn = ({navigation}) => {
                 alignSelf: 'center',
                 marginTop: 20,
               }}
-              onStartShouldSetResponder={() => navigation.navigate('SignUp')}>
+              onStartShouldSetResponder={() =>
+                RootNavigation.navigate(Constants.SIGNUP_SCREEN)
+              }>
               <Text style={{color: '#707070', fontSize: 12}}>
                 Dont have an account ?{' '}
                 {
@@ -279,7 +282,7 @@ const LogIn = ({navigation}) => {
             Sign in with a social account
           </Text>
           <TouchableOpacity
-          activeOpacity={1}
+            activeOpacity={1}
             style={{
               flexDirection: 'row',
               justifyContent: 'center',
@@ -306,7 +309,7 @@ const LogIn = ({navigation}) => {
           </TouchableOpacity>
 
           <TouchableOpacity
-          activeOpacity={1}
+            activeOpacity={1}
             style={{
               flexDirection: 'row',
               justifyContent: 'center',

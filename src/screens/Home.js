@@ -6,13 +6,17 @@ import {
   ScrollView,
   TouchableOpacity,
   SafeAreaView,
+  StatusBar,
 } from 'react-native';
 import HomeButtons from '../Component/HomeButtons';
 import fonts from '../utils/FontUtils';
+import * as RootNavigation from '../utils/RootNavigation';
+import Constants from '../utils/Constants';
 
 const Home = ({navigation}) => {
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: 'white'}}>
+      <StatusBar backgroundColor={'#fff'} barStyle={'dark-content'} />
       <View
         style={{
           backgroundColor: 'white',
@@ -41,24 +45,31 @@ const Home = ({navigation}) => {
               flexDirection: 'row',
             }}>
             <TouchableOpacity
-            activeOpacity={1}
+              activeOpacity={1}
               style={{justifyContent: 'center'}}
-              onPress={() => navigation.navigate('Notification')}>
+              onPress={() =>
+                RootNavigation.navigate(Constants.NOTIFICATION_SCREEN)
+              }>
               <Image
                 style={{alignSelf: 'center', marginRight: 20}}
                 source={require('../appimages/notifydot.png')}
               />
             </TouchableOpacity>
 
-            <TouchableOpacity
-            activeOpacity={1}
+            {/* <TouchableOpacity
+              activeOpacity={1}
               style={{justifyContent: 'center'}}
-              onPress={() => navigation.navigate('Profile')}>
+              onPress={() => RootNavigation.navigate(Constants.PROFILE_SCREEN)}>
               <Image
-                style={{alignSelf: 'center', marginRight: 20,width:35,height:35}}
+                style={{
+                  alignSelf: 'center',
+                  marginRight: 20,
+                  width: 35,
+                  height: 35,
+                }}
                 source={require('../appimages/girlimg.png')}
               />
-            </TouchableOpacity>
+            </TouchableOpacity> */}
           </View>
         </View>
 
@@ -72,67 +83,81 @@ const Home = ({navigation}) => {
           showsVerticalScrollIndicator={false}>
           <HomeButtons
             text={'BREAKING NEWS'}
-            onPress={() => navigation.navigate('BreakingNews', {name: 'jane'})}
+            onPress={() => RootNavigation.navigate(Constants.NEWS_SCREEN)}
             style={{backgroundColor: '#E2976D'}}
           />
 
           <HomeButtons
             text={'MACKENZIE VALLEY'}
-            onPress={()=> navigation.navigate('Valley', {name: 'jane'})}
+            onPress={() =>
+              RootNavigation.navigate(Constants.MACKENZIE_VELLY_SCREEN)
+            }
             style={{backgroundColor: '#9EA9C7'}}
           />
 
           <HomeButtons
             text={'SCHOLARSHIPS'}
-            // onPress={()=> navigation.navigate('BreakingNews', {name: 'jane'})}
+            onPress={() =>
+              RootNavigation.navigate(Constants.SCHOLARSHIPS_SCREEN)
+            }
             style={{backgroundColor: '#9BB75E'}}
           />
 
           <HomeButtons
             text={'CLIMATE CHANGE'}
-            // onPress={() => navigation.navigate('BreakingNews', {name: 'jane'})}
+            onPress={() =>
+              RootNavigation.navigate(Constants.CLIMATE_CHANGE_SCREEN, {
+                name: 'jane',
+              })
+            }
             style={{backgroundColor: '#E2976D'}}
           />
 
           <HomeButtons
             text={'RECLAMATION CENTER'}
-            // onPress={() => navigation.navigate()}
+            onPress={() =>
+              RootNavigation.navigate(Constants.REMEIDATION_SCREEN)
+            }
             style={{backgroundColor: '#9EA9C7'}}
           />
 
-          <HomeButtons
+          {/* <HomeButtons
             text={'REMEDIATION'}
-            onPress={() => navigation.navigate('Remidation')}
+            onPress={() =>
+              RootNavigation.navigate(Constants.REMEIDATION_SCREEN)
+            }
             style={{backgroundColor: '#CEC983'}}
-          />
+          /> */}
 
           <HomeButtons
-            text={'SAHTU HERITAGE'}
-            // onPress={() => navigation.navigate('BreakingNews', {name: 'jane'})}
+            text={'SAHTÚ HERITAGE'}
+            onPress={() =>
+              RootNavigation.navigate(Constants.SAHTU_HERITAGE, {name: 'jane'})
+            }
             style={{backgroundColor: '#5EB7AE'}}
           />
 
           <HomeButtons
             text={'CALENDAR'}
-            onPress={() => navigation.navigate('Calendar')}
+            onPress={() => RootNavigation.navigate(Constants.CALENDAR_SCREEN)}
             style={{backgroundColor: '#E8A23F'}}
           />
 
           <HomeButtons
             text={'DIRECTORY'}
-            onPress={() => navigation.navigate('Directory')}
+            onPress={() => RootNavigation.navigate(Constants.DIRECTORY_SCREEN)}
             style={{backgroundColor: '#F2CAAC'}}
           />
 
           <HomeButtons
             text={'CONTACT US'}
-            onPress={() => navigation.navigate('ContactUs')}
+            onPress={() => RootNavigation.navigate(Constants.CONTACT_US_SCREEN)}
             style={{backgroundColor: '#D96231'}}
           />
 
           <HomeButtons
             text={'FAQS'}
-            onPress={() => navigation.navigate('Faqs')}
+            onPress={() => RootNavigation.navigate(Constants.FAQS_SCREEN)}
             style={{backgroundColor: '#518FDE'}}
           />
 

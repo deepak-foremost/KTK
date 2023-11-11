@@ -49,7 +49,7 @@ const GreatBear = ({navigation}) => {
                 fontFamily: fonts.frutigebold,
               }}
               numberOfLines={2}>
-              November 29-30 & December 01 2021 in Deline NT and virtually via
+              November 29-30 & December 01 2021 in Délı̨nę NT and virtually via
               Zoom PDF Documents available To download please select below:
             </Text>
           </View>

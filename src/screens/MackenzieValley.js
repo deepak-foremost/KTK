@@ -9,6 +9,8 @@ import {
 import React from 'react';
 import fonts from '../utils/FontUtils';
 import HomeButtons from '../Component/HomeButtons';
+import * as RootNavigation from '../utils/RootNavigation';
+import Constants from '../utils/Constants';
 
 const list = [
   {
@@ -43,7 +45,7 @@ const MackenzieValley = ({navigation}) => {
         <TouchableOpacity
         
           activeOpacity={1}
-          onPress={() => navigation.navigate('Home', {name: 'jane'})}
+          onPress={() => RootNavigation.goBack()}
           style={{
             backgroundColor: '#FFF200',
             height: 35,
@@ -60,7 +62,7 @@ const MackenzieValley = ({navigation}) => {
         <Text style={{fontSize: 18, fontFamily: fonts.frutigebold}}>
           Mackenzie Valley
         </Text>
-        <TouchableOpacity
+        {/* <TouchableOpacity
         activeOpacity={1}
           style={{position: 'absolute', right: 15}}
           onPress={() => navigation.navigate('Profile')}>
@@ -68,7 +70,7 @@ const MackenzieValley = ({navigation}) => {
             style={{alignSelf: 'center',width:35,height:35}}
             source={require('../appimages/girlimg.png')}
           />
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </View>
 
       <FlatList
@@ -78,7 +80,7 @@ const MackenzieValley = ({navigation}) => {
           <View style={{paddingHorizontal: 15}}>
             <HomeButtons
               text={item.title}
-               onPress={() => index==1 && navigation.navigate('GreatBear')}
+               onPress={() => index==1 && RootNavigation.navigate(Constants.GREAT_BEAR_SCREEN)}
               style={{backgroundColor: '#BCC5DE'}}
             />
           </View>

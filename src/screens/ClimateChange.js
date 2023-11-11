@@ -1,6 +1,8 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, {useEffect, useState} from 'react';
-import {SafeAreaView, View, Text} from 'react-native';
+import {SafeAreaView, View, Text, TouchableOpacity, Image} from 'react-native';
+import fonts from '../utils/FontUtils';
+import * as RootNavigation from '../utils/RootNavigation';
 
 const Climate = ({navigation}) => {
   const [first_name, setFirstName] = useState('deep');
@@ -39,21 +41,78 @@ const Climate = ({navigation}) => {
   };
 
   return (
-    <SafeAreaView style={{flex: 1, justifyContent: 'center'}}>
-      <View>
-        <Text>first Name</Text>
-        <Text>{first_name}</Text>
-      </View>
-      <View>
-        <Text>Email</Text>
-        <Text>{email}</Text>
-      </View>
-      <View>
-        <Text>phone_number</Text>
-        <Text>{phone}</Text>
+    <SafeAreaView style={{flex: 1, backgroundColor: '#fff'}}>
+      <View
+        style={{
+          height: 55,
+          alignItems: 'center',
+          justifyContent: 'center',
+          borderBottomColor: '#E8E4E4',
+          borderBottomWidth: 1,
+        }}>
+        <TouchableOpacity
+          activeOpacity={1}
+          onPress={() => RootNavigation.goBack()}
+          style={{
+            backgroundColor: '#FFF200',
+            height: 35,
+            width: 35,
+            justifyContent: 'center',
+            position: 'absolute',
+            left: 15,
+          }}>
+          <Image
+            style={{alignSelf: 'center'}}
+            source={require('../appimages/backicon.png')}
+          />
+        </TouchableOpacity>
+        <Text style={{fontSize: 18, fontFamily: fonts.frutigebold}}>
+          Climate Change
+        </Text>
+        <TouchableOpacity
+          activeOpacity={1}
+          style={{position: 'absolute', right: 15}}
+          onPress={() => navigation.navigate('Profile')}>
+          <Image
+            style={{alignSelf: 'center', width: 35, height: 35}}
+            source={require('../appimages/girlimg.png')}
+          />
+        </TouchableOpacity>
       </View>
 
-      <Text> </Text>
+      <View
+        style={{justifyContent: 'center', alignItems: 'center', padding: 15}}>
+        <Image
+          style={{width: '100%', height: 120}}
+          source={require('../appimages/newstwo.png')}
+        />
+      </View>
+      <Text
+        style={{
+          fontSize: 22,
+          marginBottom: 15,
+          fontFamily: fonts.frutigebold,
+          marginLeft: 15,
+        }}>
+        Climate Change
+      </Text>
+      <Text
+        style={{
+          fontSize: 12,
+          fontFamily: fonts.frutigebold,
+          color: '#848484',
+          marginHorizontal: 15,
+          lineHeight: 18,
+        }}>
+        SSI has established a small climate change research facility that will
+        support research into the effects of climate change on very young
+        people. This facility will be overseen by a science advisor (a pediatric
+        physician) and will, when fully funded in the new year, begin community
+        consultations on the health of very young children and look for ways to
+        help them to avoid climate change caused health issues and/or overcome
+        them. Community information sessions for parents of very young children
+        are planned to start in April of next year.
+      </Text>
     </SafeAreaView>
   );
 };

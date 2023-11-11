@@ -10,6 +10,7 @@ import {
   ScrollView,
 } from 'react-native';
 import fonts from '../utils/FontUtils';
+import * as RootNavigation from '../utils/RootNavigation';
 
 const list = [
   {
@@ -55,7 +56,7 @@ const Notification = ({navigation}) => {
             height: 35,
             width: 35,
           }}
-          onPress={() => navigation.navigate('Home')}>
+          onPress={() => RootNavigation.goBack()}>
           <Image
             style={{alignSelf: 'center'}}
             source={require('../appimages/backicon.png')}

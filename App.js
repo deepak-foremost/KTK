@@ -1,7 +1,11 @@
 import * as React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
-import {createStackNavigator,CardStyleInterpolators} from '@react-navigation/stack';
+import {
+  createStackNavigator,
+  CardStyleInterpolators,
+} from '@react-navigation/stack';
 import FlashMessage from 'react-native-flash-message';
+import RootNavigation from './src/utils/RootNavigation';
 
 import SplashScreen from './src/screens/Splash';
 import InformationScreen from './src/screens/Information';
@@ -19,143 +23,43 @@ import ProfileScreen from './src/screens/Profile';
 import ClimateChangeScreen from './src/screens/ClimateChange';
 import MackenzieValley from './src/screens/MackenzieValley';
 import GreatBear from './src/screens/GreatBear';
-import Remidation from'./src/screens/Remediation';
+import Remidation from './src/screens/Remediation';
 import ForgetScreen from './src/screens/ForgetScreen';
 import ForgetOtp from './src/screens/ForgetOtp';
 import NewPassword from './src/screens/NewPassword';
 
 const Stack = createStackNavigator();
+export const navigationRef = React.createRef();
 
-// function Root(){
-//   return (
-//     <Drawer.Navigator>
-//        <Drawer.Screen name="Information" component={InformationScreen} />
-//        <Drawer.Screen name="LogIn" component={LogInScreen} options={{headerShown : false}}/>
-//         <Drawer.Screen name="SignUp" component={SignUpScreen}  options={{headerShown : false}}/>
-//         <Drawer.Screen name="Home" component={HomeScreen} />
-//         <Drawer.Screen name="BreakingNews" component={BreakingNewsScreen} options={{headerShown : false}}/>
-//         <Drawer.Screen name="BreakingDetail" component={BreakingDetailScreen} />
-//         <Drawer.Screen name="Calendar" component={CalendarScreen} />
-//     </Drawer.Navigator>
-//   );
-// }
-
-function App() {
-  return (
-    <View style={{ flex: 1 }}>
-      <View ref={"otherView1"} />
-      <View ref={"otherView2"} />
-      <View ref={"otherView3"} />
-      {/* GLOBAL FLASH MESSAGE COMPONENT INSTANCE */}
-      <FlashMessage position="top" /> {/* <--- here as the last component */}
-    </View>
-  );
-}
 const MyStack = () => {
-  return ( 
-    
-    <NavigationContainer>
-      <Stack.Navigator
-       screenOptions={{
-        headerShown: false,
-        cardStyleInterpolator: CardStyleInterpolators.forHorizontalIOS,
-      }}>
-       
-        <Stack.Screen
-          name="Splash"
-          component={SplashScreen}
-          options={{headerShown: false}}
-        />
-        <Stack.Screen name="Information" component={InformationScreen} options={{headerShown:false}} />
-        <Stack.Screen
-          name="LogIn"
-          component={LogInScreen}
-          options={{headerShown: false}}
-        />
-        <Stack.Screen
-          name="SignUp"
-          component={SignUpScreen}
-          options={{headerShown: false}}
-        />
-        <Stack.Screen name="Home" component={HomeScreen} options={{headerShown: false}} />
-        <Stack.Screen
-          name="BreakingNews"
-          component={BreakingNewsScreen}
-          options={{headerShown: false}}
-        />
-        <Stack.Screen
-          name="BreakingDetail"
-          component={BreakingDetailScreen}
-          options={{headerShown: false}}
-        />
-        <Stack.Screen
-          name="Calendar"
-          component={CalendarScreen}
-          options={{headerShown: false}}
-        />
-        <Stack.Screen
-          name="Directory"
-          component={DirectoryScreen}
-          options={{headerShown: false}}
-        />
-        <Stack.Screen
-          name="ContactUs"
-          component={ContactUsScreen}
-          options={{headerShown: false}}
-        />
-        <Stack.Screen
-          name="Faqs"
-          component={FaqsScreen}
-          options={{headerShown: false}}
-        />
-        <Stack.Screen
-          name="Notification"
-          component={NotificationScreen}
-          options={{headerShown: false}}
-        />
-        <Stack.Screen
-          name="Profile"
-          component={ProfileScreen}
-          options={{headerShown: false}}
-        />
-         <Stack.Screen
-          name="ClimateChange"
-          component={ClimateChangeScreen}
-          // options={{headerShown: false}}
-        />
-         <Stack.Screen
-          name="Valley"
-          component={MackenzieValley}
-          options={{headerShown: false}}
-        />
-         <Stack.Screen
-          name="GreatBear"
-          component={GreatBear}
-          options={{headerShown: false}}
-        />
-         <Stack.Screen
-          name="Remidation"
-          component={Remidation}
-          options={{headerShown: false}}
-        />
-         <Stack.Screen
-          name="Forget"
-          component={ForgetScreen}
-          options={{headerShown: false}}
-        />
-         <Stack.Screen
-          name="ForgetOtp"
-          component={ForgetOtp}
-          options={{headerShown: false}}
-        />
-         <Stack.Screen
-          name="NewPassword"
-          component={NewPassword}
-          options={{headerShown: false}}
-        />
-      </Stack.Navigator>
-    </NavigationContainer>
+  return (
+    <>
+      <RootNavigation />
+      <FlashMessage />
+    </>
   );
 };
 
 export default MyStack;
+
+export const navigate = (name, params) => {
+  navigationRef.current?.navigate(name, params);
+};
+
+export const push = (navigation, name, params) => {
+  navigation.push(name, params);
+};
+
+export const goBack = () => {
+  navigationRef.current.goBack();
+};
+export const goToRoot = () => {
+  navigationRef.current.navigate(AppScreens.SplashScreen);
+};
+
+export const forcePush = (props, screenName, data) => {
+  props?.navigation?.reset({
+    index: 0,
+    routes: [{name: screenName, params: data}],
+  });
+};

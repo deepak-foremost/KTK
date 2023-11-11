@@ -3,7 +3,9 @@ import {Image, ScrollView, Text, TouchableOpacity, View} from 'react-native';
 import {SafeAreaView} from 'react-native';
 import fonts from '../utils/FontUtils';
 
-const BreakingDetail = ({navigation}) => {
+const BreakingDetail = ({navigation, route}) => {
+  const item = route.params.item;
+  // console.warn(route.params.item.heading)
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: '#fff'}}>
       <View style={{flex: 1, backgroundColor: 'white'}}>
@@ -39,7 +41,7 @@ const BreakingDetail = ({navigation}) => {
                 fontSize: 18,
                 alignSelf: 'center',
               }}>
-              Breaking news detail
+              Breaking News Detail
             </Text>
           </View>
         </View>
@@ -47,7 +49,7 @@ const BreakingDetail = ({navigation}) => {
         <View style={{height: 1, backgroundColor: '#E8E4E4'}}></View>
 
         <ScrollView
-         showsVerticalScrollIndicator={false}
+          showsVerticalScrollIndicator={false}
           contentContainerStyle={{
             paddingHorizontal: 15,
             justifyContent: 'center',
@@ -86,8 +88,7 @@ const BreakingDetail = ({navigation}) => {
                   fontFamily: fonts.frutigebold,
                 }}
                 numberOfLines={2}>
-                November 29-30 & December 01 2021 in Deline NT and virtually via
-                Zoom PDF Documents available To download please select below:
+                {item.heading}
               </Text>
             </View>
 
@@ -101,7 +102,7 @@ const BreakingDetail = ({navigation}) => {
                   alignSelf: 'center',
                   backgroundColor: 'green',
                 }}
-                source={require('../appimages/newstwo.png')}
+                source={item.src}
               />
             </View>
 
@@ -115,19 +116,7 @@ const BreakingDetail = ({navigation}) => {
                   color: '#848484',
                   fontFamily: fonts.frutigeregular,
                 }}>
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-                enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                nisi ut aliquip ex ea commodo consequat.Lorem ipsum dolor sit
-                amet, consectetur adipiscing elit,{'\n\n'}sed do eiusmod tempor
-                incididunt ut labore et dolore magna aliqua. Cursus vitae congue
-                mauris rhoncus aenean vel. Lacus vel facilisis volutpat est
-                velit egestas dui id ornare. Aenean vel elit scelerisque mauris.
-                Ullamcorper a lacus vestibulum sed arcu non odio euismod.Lorem
-                ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-                enim ad minim veniam, quis nostrud exercitation ullamco laboris
-                nisi ut aliquip ex ea commodo consequat.{' '}
+                {item.details}
               </Text>
             </View>
           </View>

@@ -10,6 +10,7 @@ import {
   Platform,
 } from 'react-native';
 import fonts from '../utils/FontUtils';
+import * as RootNavigation from '../utils/RootNavigation';
 
 const list = [
   {
@@ -44,7 +45,7 @@ const Calendar = ({navigation}) => {
         }}>
         <TouchableOpacity
           activeOpacity={1}
-          onPress={() => navigation.goBack()}
+          onPress={()=> RootNavigation.goBack()}
           style={{
             backgroundColor: '#FFF200',
             justifyContent: 'center',
@@ -62,7 +63,7 @@ const Calendar = ({navigation}) => {
         <Text
           style={{
             fontSize: 18,
-            flex: 1,
+            
             textAlign: 'center',
             fontFamily: fonts.frutigebold,
           }}>
@@ -90,11 +91,12 @@ const Calendar = ({navigation}) => {
                 width: 45,
                 height: 45,
                 marginLeft: 15,
+                
               }}>
               <Text
                 style={{
                   fontFamily: fonts.frutigebold,
-                  fontSize: 19,
+                  fontSize: 17,
                   alignSelf: 'center',
                 }}>
                 {item.date.slice(0, 2)}
@@ -103,7 +105,7 @@ const Calendar = ({navigation}) => {
                 style={{
                   fontFamily: fonts.frutigebold,
                   alignSelf: 'center',
-                  fontSize: 13,
+                  fontSize: 11,
                 }}>
                 {item.date.slice(2)}
               </Text>

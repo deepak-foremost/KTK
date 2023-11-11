@@ -5,6 +5,8 @@ import TextInputView from '../Component/TextInputView';
 import HomeButtons from '../Component/HomeButtons';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import PasswordView from '../Component/PasswordView';
+import * as RootNavigation from '../utils/RootNavigation';
+import Constants from '../utils/Constants';
 
 const NewPassword = ({navigation}) => {
   const [Password, setPassword] = useState('');
@@ -81,7 +83,7 @@ const NewPassword = ({navigation}) => {
 
           <HomeButtons
             text={'Confirm'}
-            onPress={() => navigation.navigate('Home')}
+            onPress={() => RootNavigation.navigate(Constants.HOME_SCREEN)}
             style={{backgroundColor: '#FFF200'}}
           />
         </View>

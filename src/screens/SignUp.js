@@ -17,6 +17,8 @@ import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import TextInputView from '../Component/TextInputView';
 import PasswordView from '../Component/PasswordView';
 import fonts from '../utils/FontUtils';
+import * as RootNavigation from '../utils/RootNavigation';
+import Constants from '../utils/Constants';
 
 const SignUp = ({navigation}) => {
   const [first_name, setFirstName] = useState('');
@@ -187,7 +189,7 @@ const SignUp = ({navigation}) => {
           <TouchableOpacity
             activeOpacity={1}
             onPress={() => {
-              navigation.navigate('Home');
+              RootNavigation.navigate(Constants.HOME_SCREEN);
             }}
             style={{
               backgroundColor: '#FFF200',
@@ -207,7 +209,7 @@ const SignUp = ({navigation}) => {
           </TouchableOpacity>
           <TouchableOpacity
             activeOpacity={1}
-            onPress={() => navigation.navigate('LogIn')}>
+            onPress={() => RootNavigation.navigate(Constants.LOGIN_SCREEN)}>
             <Text
               style={{
                 fontSize: 12,

@@ -4,6 +4,8 @@ import fonts from '../utils/FontUtils';
 import TextInputView from '../Component/TextInputView';
 import HomeButtons from '../Component/HomeButtons';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
+import * as RootNavigation from '../utils/RootNavigation';
+import Constants from '../utils/Constants';
 
 const ForgetScreen = ({navigation}) => {
   const [number, setNumber] = useState('');
@@ -69,7 +71,7 @@ const ForgetScreen = ({navigation}) => {
 
           <HomeButtons
             text={'Get The Code'}
-              onPress={() => navigation.navigate('ForgetOtp')}
+              onPress={() => RootNavigation.navigate(Constants.FORGET_OTP_SCREEN)}
             style={{backgroundColor: '#FFF200'}}
           />
         </View>

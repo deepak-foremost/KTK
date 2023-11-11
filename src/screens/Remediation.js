@@ -6,11 +6,13 @@ import fonts from '../utils/FontUtils';
 const Remediation = ({navigation}) => {
   return (
     <SafeAreaView style={{backgroundColor: 'white', flex: 1}}>
-      <Toolbar text={'Remediation'} 
-      onPress={()=> navigation.goBack()}/>
+      <Toolbar
+        text={'Reclamation Centre'}
+        onPress={() => navigation.goBack()}
+      />
 
       <ScrollView
-      showsVerticalScrollIndicator={false}
+        showsVerticalScrollIndicator={false}
         contentContainerStyle={{
           paddingHorizontal: 15,
           justifyContent: 'center',
@@ -40,11 +42,10 @@ const Remediation = ({navigation}) => {
                 fontSize: 22,
                 marginVertical: 20,
                 fontFamily: fonts.frutigebold,
-                
               }}
               numberOfLines={3}>
-              At the 2019 Annual General Meeting the SSI passed a motion
-              regarding Climate Change to…
+              Climate Change to planned remediation work mines, pipelines,
+              and oilfield work
             </Text>
           </View>
 
@@ -58,18 +59,18 @@ const Remediation = ({navigation}) => {
                 fontFamily: fonts.frutigeregular,
               }}>
               1. Encourage the federal government to continue its planned
-              remediation work of abandoned mine sites in the Decline District;
+              remediation work of abandoned mine sites in the Délı̨nę District;
               {'\n\n'}
               2. Urges the federal government to continue its efforts to improve
-              the economic conditions of indigenous people in the Sahtu Region;
+              the economic conditions of indigenous people in the Sahtú Region;
               {'\n\n'}
-              3. Recommends funding be provided to help Sahtu residents and
+              3. Recommends funding be provided to help Sahtú residents and
               business prepare for mine, oilfield and pipeline remediation work
-              int he coming year; and{'\n\n'}4. Supports Decline District in its
+              int he coming year; and{'\n\n'}4. Supports Délı̨nę District in its
               efforts to negotiate a direct issuance of remediation work
               associated with the Terra/Silver Bear project in the District to
               the benefit of all the Indigenous residents and businesses of
-              the Sahtu Region.
+              the Sahtú Region.
             </Text>
           </View>
         </View>

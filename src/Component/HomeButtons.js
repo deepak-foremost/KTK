@@ -20,6 +20,7 @@ const HomeButtons = props => {
           fontSize: 16,
           alignSelf: 'center',
           fontFamily: fonts.frutigebold,
+          transform:'captalize'
         }}>
         {props?.text}
       </Text>

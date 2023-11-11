@@ -15,6 +15,8 @@ import {
 } from 'react-native';
 import {FullWindowOverlay} from 'react-native-screens';
 import fonts from '../utils/FontUtils';
+import * as RootNavigation from '../utils/RootNavigation';
+import Constants from '../utils/Constants';
 
 const Information = ({navigation}) => {
   const [token, setToken] = useState('');
@@ -33,6 +35,15 @@ const Information = ({navigation}) => {
       src: require('../appimages/information.png'),
     },
   ];
+
+  const storeValue = async => {
+    try {
+      AsyncStorage.setItem('first', 'enter');
+        RootNavigation.navigate(Constants.HOME_SCREEN)
+    } catch (error) {
+      // Error saving data
+    }
+  };
 
   const onViewCallBack = React.useCallback(viewableItems => {
     console.log(viewableItems.viewableItems[0].index);
@@ -124,10 +135,10 @@ const Information = ({navigation}) => {
             lineHeight: 40,
             marginHorizontal: 15,
             textAlign: 'center',
-            width:'75%',
-            alignSelf:'center'
+            width: '75%',
+            alignSelf: 'center',
           }}>
-          Safeguarding Our Sahtu for Future Generations.
+          Safeguarding Our Sahtú for Future Generations.
         </Text>
 
         <Text
@@ -139,7 +150,7 @@ const Information = ({navigation}) => {
             color: 'black',
           }}>
           {'  '}
-          Stay Connected with Sahtu Secretariat Inc:{'\n  '}
+          Stay Connected with Sahtú Secretariat Inc:{'\n  '}
           Your Go-To Community Hub for the Latest {'\n'}
           Updates, Insights, andEngaging Connections!
         </Text>
@@ -155,7 +166,8 @@ const Information = ({navigation}) => {
             justifyContent: 'center',
           }}
           onPress={() => {
-            navigation.navigate('LogIn');
+            //  RootNavigation.navigate(Constants.LOGIN_SCREEN)
+            storeValue();
           }}>
           <Text
             style={{

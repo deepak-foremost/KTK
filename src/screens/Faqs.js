@@ -12,35 +12,36 @@ import {
 import dropdown from '../appimages/dropup.png';
 import dropUp from '../appimages/dropdown.png';
 import fonts from '../utils/FontUtils';
+import * as RootNavigation from '../utils/RootNavigation';
 
 const list = [
   {
     id: 0,
-    title: 'What is Shathu Article and how does it work ?',
+    title: 'What is Sahtú Article and how does it work ?',
     show: false,
     detail:
-      'Sahtu Article is a news app that provides you with the latest and  most relevant news articles from various sources. Our app uses advanced algorithms to curate and deliver personalized news content based on your interests and preferences ',
+      'Sahtú Article is a news app that provides you with the latest and  most relevant news articles from various sources. Our app uses advanced algorithms to curate and deliver personalized news content based on your interests and preferences ',
   },
   {
     id: 1,
     title: 'What is Shathu Article and how does it work ?',
     show: false,
     detail:
-      'Sahtu Article is a news app that provides you with the latest and  most relevant news articles from various sources. Our app uses advanced algorithms to curate and deliver personalized news content based on your interests and preferences ',
+      'Sahtú Article is a news app that provides you with the latest and  most relevant news articles from various sources. Our app uses advanced algorithms to curate and deliver personalized news content based on your interests and preferences ',
   },
   {
     id: 2,
     title: 'What is Shathu Article and how does it work ?',
     show: false,
     detail:
-      'Sahtu Article is a news app that provides you with the latest and  most relevant news articles from various sources. Our app uses advanced algorithms to curate and deliver personalized news content based on your interests and preferences ',
+      'Sahtú Article is a news app that provides you with the latest and  most relevant news articles from various sources. Our app uses advanced algorithms to curate and deliver personalized news content based on your interests and preferences ',
   },
   {
     id: 3,
     title: 'What is Shathu Article and how does it work ?',
     show: false,
     detail:
-      'Sahtu Article is a news app that provides you with the latest and  most relevant news articles from various sources. Our app uses advanced algorithms to curate and deliver personalized news content based on your interests and preferences ',
+      'Sahtú Article is a news app that provides you with the latest and  most relevant news articles from various sources. Our app uses advanced algorithms to curate and deliver personalized news content based on your interests and preferences ',
   },
 ];
 
@@ -77,7 +78,7 @@ const Faqs = ({navigation}) => {
             position: 'absolute',
             left: 15,
           }}
-          onPress={() => navigation.navigate('Home')}>
+          onPress={() => RootNavigation.goBack()}>
           <Image
             style={{alignSelf: 'center'}}
             source={require('../appimages/backicon.png')}
@@ -86,7 +87,7 @@ const Faqs = ({navigation}) => {
         <Text
           style={{
             fontSize: 18,
-            flex: 1,
+           
             textAlign: 'center',
             fontFamily: fonts.frutigebold,
             marginVertical: 10,
@@ -252,13 +253,13 @@ const Faqs = ({navigation}) => {
                     fontSize: 16,
                     fontFamily: fonts.frutigebold,
                   }}>
-                  What is Sahtu Article and how does it work ?
+                  What is Sahtú Article and how does it work ?
                 </Text>
               </View>
 
               <Image
                 style={{alignSelf: 'center', position: 'absolute', right: 15}}
-                source={itemid == index ? dropUp : dropdown}
+                source={itemid == index ?  dropdown :dropUp }
               />
             </View>
             {itemid == index ? (

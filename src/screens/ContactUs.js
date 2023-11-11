@@ -11,6 +11,8 @@ import {
   StyleSheet,
   Dimensions,
   Linking,
+  Platform,
+  ToastAndroid,
 } from 'react-native';
 import SignUp from './SignUp';
 import {FloatingLabelInput} from 'react-native-floating-label-input';
@@ -18,6 +20,9 @@ import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import call from 'react-native-phone-call';
 import TextInputView from '../Component/TextInputView';
 import fonts from '../utils/FontUtils';
+import * as RootNavigation from '../utils/RootNavigation';
+import Constants from '../utils/Constants';
+import {showMessage} from 'react-native-flash-message';
 
 const ContactUs = ({navigation}) => {
   const [name, setName] = useState('');
@@ -31,6 +36,31 @@ const ContactUs = ({navigation}) => {
   const [fadeName, setFadeName] = useState(false);
   const [fadeAdress, setFadeAdress] = useState(false);
   const [fadeHelp, setFadeHelp] = useState(false);
+
+  const showToast = () => {
+    if (name != '' && email != '' && help != '') {
+      showMessage({
+        message: 'Help Sent!',
+        description: 'Your request for help has been sent.',
+        type: 'info',
+        duration: 1500,
+        backgroundColor: '#FFF200',
+        textStyle: {color: 'black', fontStyle: fonts.frutigeregular},
+        color: 'black',
+        style: {
+          borderBottomLeftRadius: 20,
+          borderBottomRightRadius: 20,
+        },
+        fontFamily: fonts.popinsbold,
+      });
+
+      setEmail('');
+      setHelp('');
+      setName('');
+    } else {
+      ToastAndroid.show('Please Enter Details', ToastAndroid.SHORT);
+    }
+  };
 
   const triggerCall = () => {
     // Check for perfect 10 digit length
@@ -86,7 +116,7 @@ const ContactUs = ({navigation}) => {
             width: 35,
             left: 0,
           }}
-          onPress={() => navigation.navigate('Home')}>
+          onPress={() => RootNavigation.goBack()}>
           <Image
             style={{alignSelf: 'center'}}
             source={require('../appimages/backicon.png')}
@@ -149,6 +179,7 @@ const ContactUs = ({navigation}) => {
             paddingHorizontal: 15,
           }}>
           <TextInputView
+            value={name}
             placeholderText={'Enter Full Name'}
             onChange={i => setName(i)}
             showText={name == '' ? false : true}
@@ -156,6 +187,7 @@ const ContactUs = ({navigation}) => {
           />
 
           <TextInputView
+            value={email}
             placeholderText={'Email Address'}
             onChange={i => setEmail(i)}
             showText={email == '' ? false : true}
@@ -170,6 +202,7 @@ const ContactUs = ({navigation}) => {
             ) : null}
 
             <TextInput
+              value={help}
               style={{
                 color: 'black',
                 height: '80%',
@@ -189,7 +222,9 @@ const ContactUs = ({navigation}) => {
 
           <TouchableOpacity
             activeOpacity={1}
-            onPress={() => navigation.navigate('SignUp', {name: 'jane'})}
+            onPress={() => showToast()}
+            // onPress={() => RootNavigation.navigate(Constants.SIGNUP_SCREEN)}
+            // onPress={()=>   ToastAndroid.show("Submitt", ToastAndroid.SHORT)}
             style={{
               justifyContent: 'center',
               backgroundColor: '#FFF200',
@@ -198,7 +233,9 @@ const ContactUs = ({navigation}) => {
               width: '100%',
               marginTop: 20,
             }}>
-            <Text style={{alignSelf: 'center',fontFamily:fonts.frutigebold}}>Submit</Text>
+            <Text style={{alignSelf: 'center', fontFamily: fonts.frutigebold}}>
+              Submit
+            </Text>
           </TouchableOpacity>
 
           <View
@@ -216,7 +253,7 @@ const ContactUs = ({navigation}) => {
               }}
               onPress={() =>
                 Linking.openURL(
-                  'mailto:ssi.ed@sahtu.ca, ssi.aa@sahtu.ca?subject=SendMail&body=Description',
+                  'mailto:ssi.ed@sahtu.ca,?subject=SendMail&body=Description',
                 )
               }>
               ssi.ed@sahtu.ca, ssi.aa@sahtu.ca{' '}
@@ -235,7 +272,11 @@ const ContactUs = ({navigation}) => {
                 fontFamily: fonts.frutigeregular,
                 marginLeft: 10,
               }}
-              onPress={() => triggerCall()}>
+              onPress={() =>
+                Platform.OS == 'ios'
+                  ? triggerCall()
+                  : Linking.openURL(`tel:${inputValue}`)
+              }>
               867-589-4719{' '}
             </Text>
           </View>

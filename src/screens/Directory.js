@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,
   Text,
@@ -13,6 +13,9 @@ import {
 import dropdown from '../appimages/spinup.png';
 import dropUp from '../appimages/spindown.png';
 import fonts from '../utils/FontUtils';
+import * as RootNavigation from '../utils/RootNavigation';
+import {CallApi, getDirectory} from '../networking/CallApi';
+import {Apis, Request_Type} from '../networking/Apis';
 
 const list = [
   {
@@ -20,7 +23,7 @@ const list = [
     article: 'NEWS ARTICLE',
     data: [
       'P.O.BOX 155',
-      'Deline,NT X0E 0G0',
+      'Délı̨nę,NT X0E 0G0',
       'CANADA',
       'Tel: (867) 589-4719',
       'Fax: (867) 589-4908',
@@ -32,7 +35,7 @@ const list = [
     //var [check,setDown]=useState(false),
     data: [
       'P.O.BOX 155',
-      'Deline,NT X0E 0G0',
+      'Délı̨nę,NT X0E 0G0',
       'CANADA',
       'Tel: (867) 589-4719',
       'Fax: (867) 589-4908',
@@ -43,7 +46,7 @@ const list = [
     article: 'Travel & Adventure',
     data: [
       'P.O.BOX 155',
-      'Deline,NT X0E 0G0',
+      'Délı̨nę,NT X0E 0G0',
       'CANADA',
       'Tel: (867) 589-4719',
       'Fax: (867) 589-4908',
@@ -89,8 +92,22 @@ const items = [
 const Directory = ({navigation}) => {
   const [show, setShow] = useState(true);
   const [itemid, setItemid] = useState(-1);
+  const [directories, setDirectory] = useState([]);
 
   var ViewColor = itemid == -1 ? '#FFEBDC' : '#F2CAAC';
+
+  useEffect(() => {
+    getDirectory(
+      {},
+      onSuccess => {
+        console.log('onSuccess---->', onSuccess);
+        setDirectory(onSuccess?.data);
+      },
+      onFailure => {
+        console.log('onFailure---->', onFailure);
+      },
+    );
+  }, [directories, setDirectory]);
   return (
     <SafeAreaView style={{backgroundColor: 'white', flex: 1}}>
       <View
@@ -100,8 +117,8 @@ const Directory = ({navigation}) => {
           paddingHorizontal: 15,
           height: 55,
           backgroundColor: 'white',
-          justifyContent:'center',
-          alignItems:'center'
+          justifyContent: 'center',
+          alignItems: 'center',
         }}>
         <TouchableOpacity
           activeOpacity={1}
@@ -110,10 +127,10 @@ const Directory = ({navigation}) => {
             justifyContent: 'center',
             height: 35,
             width: 35,
-            position:'absolute',
-            left:15
+            position: 'absolute',
+            left: 15,
           }}
-          onPress={() => navigation.navigate('Home')}>
+          onPress={() => RootNavigation.goBack()}>
           <Image
             style={{alignSelf: 'center'}}
             source={require('../appimages/backicon.png')}
@@ -122,7 +139,7 @@ const Directory = ({navigation}) => {
         <Text
           style={{
             fontSize: 18,
-            flex: 1,
+
             textAlign: 'center',
             fontFamily: fonts.frutigebold,
             marginVertical: 10,
@@ -273,13 +290,18 @@ const Directory = ({navigation}) => {
               onStartShouldSetResponder={() =>
                 itemid == item.id ? setItemid(-1) : setItemid(item.id)
               }>
-              <Text style={{fontSize: 18, fontFamily: fonts.frutigebold}}>
+              <Text
+                style={{
+                  fontSize: 15,
+                  fontFamily: fonts.frutigebold,
+                  color: 'black',
+                }}>
                 {item.article}
               </Text>
 
               <Image
                 style={{alignSelf: 'center'}}
-                source={itemid == index ? dropUp : dropdown}
+                source={itemid == index ? dropdown : dropUp}
               />
             </View>
             <View style={{height: 1}}></View>
