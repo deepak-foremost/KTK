@@ -1,11 +1,36 @@
-import React from 'react';
-import {Image, ScrollView, Text, TouchableOpacity, View} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {
+  Dimensions,
+  Image,
+  ScrollView,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import {SafeAreaView} from 'react-native';
 import fonts from '../utils/FontUtils';
+import {getNewsDetails} from '../networking/CallApi';
+import RenderHTML from 'react-native-render-html';
+import {ImageView, TextView, TimeView} from './BreakingNews';
 
 const BreakingDetail = ({navigation, route}) => {
   const item = route.params.item;
+  const [details, setDetails] = useState([]);
+  const [isLoading, setLoading] = useState(false);
   // console.warn(route.params.item.heading)
+
+  useEffect(() => {
+    setLoading(true);
+    getNewsDetails({id: item.id}, response => {
+      // console.log('details',response.data)
+      setDetails(response.data);
+      setLoading(false);
+    });
+  }, []);
+
+  const source = {
+    html: details?.description,
+  };
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: '#fff'}}>
       <View style={{flex: 1, backgroundColor: 'white'}}>
@@ -48,6 +73,14 @@ const BreakingDetail = ({navigation, route}) => {
 
         <View style={{height: 1, backgroundColor: '#E8E4E4'}}></View>
 
+        {isLoading && (
+          <View>
+            <NewList />
+            <NewList />
+            <NewList />
+          </View>
+        )}
+
         <ScrollView
           showsVerticalScrollIndicator={false}
           contentContainerStyle={{
@@ -78,7 +111,7 @@ const BreakingDetail = ({navigation, route}) => {
                     fontFamily: fonts.frutigeregular,
                     alignSelf: 'center',
                   }}>
-                  25 Aug 08 AM
+                  {details?.date}
                 </Text>
               </View>
               <Text
@@ -88,7 +121,7 @@ const BreakingDetail = ({navigation, route}) => {
                   fontFamily: fonts.frutigebold,
                 }}
                 numberOfLines={2}>
-                {item.heading}
+                {details?.title}
               </Text>
             </View>
 
@@ -102,13 +135,13 @@ const BreakingDetail = ({navigation, route}) => {
                   alignSelf: 'center',
                   backgroundColor: 'green',
                 }}
-                source={item.src}
+                source={{uri: details?.image}}
               />
             </View>
 
             {/* Bottom View  */}
             <View style={{flex: 0.6}}>
-              <Text
+              {/* <Text
                 style={{
                   textAlign: 'justify',
                   lineHeight: 20,
@@ -116,8 +149,13 @@ const BreakingDetail = ({navigation, route}) => {
                   color: '#848484',
                   fontFamily: fonts.frutigeregular,
                 }}>
-                {item.details}
-              </Text>
+                {details.description}
+              </Text> */}
+              <RenderHTML
+                contentWidth={Dimensions.get('window').width}
+                tagsStyles={{body: {color: '#848484'}}}
+                source={source}
+              />
             </View>
           </View>
         </ScrollView>
@@ -126,3 +164,14 @@ const BreakingDetail = ({navigation, route}) => {
   );
 };
 export default BreakingDetail;
+
+export const NewList = () => {
+  return (
+    <View>
+      <TimeView />
+      <TextView />
+      <ImageView />
+      <TextView />
+    </View>
+  );
+};

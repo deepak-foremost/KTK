@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   Text,
   View,
@@ -7,13 +7,79 @@ import {
   TouchableOpacity,
   SafeAreaView,
   StatusBar,
+  FlatList,
 } from 'react-native';
 import HomeButtons from '../Component/HomeButtons';
 import fonts from '../utils/FontUtils';
 import * as RootNavigation from '../utils/RootNavigation';
 import Constants from '../utils/Constants';
+import {getMenu, sendFirebaseToken} from '../networking/CallApi';
+import {MenuList} from '../utils/staticArray';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
+// const colors=[
+//   {
+//     id:1,
+//     colour:'#000'
+//   }
+// ]
 
 const Home = ({navigation}) => {
+  const colors = [
+    '#E2976D',
+    '#9EA9C7',
+    '#9BB75E',
+    '#E2976D',
+    '#9EA9C7',
+    '#5EB7AE',
+    '#E8A23F',
+    '#F2CAAC',
+    '#D96231',
+    '#518FDE',
+  ];
+
+  const screen = [
+    Constants.NEWS_SCREEN,
+    Constants.MACKENZIE_VELLY_SCREEN,
+    Constants.SCHOLARSHIPS_SCREEN,
+    Constants.CLIMATE_CHANGE_SCREEN,
+    Constants.REMEIDATION_SCREEN,
+    Constants.SAHTU_HERITAGE,
+    Constants.CALENDAR_SCREEN,
+    Constants.DIRECTORY_SCREEN,
+    Constants.CONTACT_US_SCREEN,
+    Constants.FAQS_SCREEN,
+  ];
+  // const backgroundColor = colors[index % colors.length];
+  const [notification, setNotification] = useState(false);
+  const [menus, setMenus] = useState([]);
+  const [setting, setSetting] = useState(null);
+  useEffect(async () => {
+    let settings = await AsyncStorage.getItem(`getSetting`);
+    setSetting(JSON.parse(settings));
+  }, []);
+
+  React.useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', () => {
+      sendFirebaseToken();
+
+      setTimeout(async () => {
+        let isNotification = await AsyncStorage.getItem(`isUnreadNotification`);
+        setNotification(isNotification > 0);
+      }, 1000);
+    });
+
+    return unsubscribe;
+  }, [navigation]);
+
+  useState(async () => {
+    sendFirebaseToken();
+    let isNotification = await AsyncStorage.getItem(`isUnreadNotification`);
+    setNotification(isNotification > 0);
+    // getMenu({}, response => {
+    //   setMenus(response.data);
+    // });
+  });
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: 'white'}}>
       <StatusBar backgroundColor={'#fff'} barStyle={'dark-content'} />
@@ -46,14 +112,27 @@ const Home = ({navigation}) => {
             }}>
             <TouchableOpacity
               activeOpacity={1}
-              style={{justifyContent: 'center'}}
+              style={{justifyContent: 'center', marginRight: 20}}
               onPress={() =>
                 RootNavigation.navigate(Constants.NOTIFICATION_SCREEN)
               }>
               <Image
-                style={{alignSelf: 'center', marginRight: 20}}
+                style={{alignSelf: 'center'}}
                 source={require('../appimages/notifydot.png')}
               />
+              {notification && (
+                <View
+                  style={{
+                    backgroundColor: '#FFF200',
+                    height: 8,
+                    width: 8,
+                    borderRadius: 8,
+                    position: 'absolute',
+                    right: 0,
+                    top: -3,
+                  }}
+                />
+              )}
             </TouchableOpacity>
 
             {/* <TouchableOpacity
@@ -74,8 +153,48 @@ const Home = ({navigation}) => {
         </View>
 
         <View style={{height: 1, backgroundColor: '#E8E4E4'}}></View>
+        <ScrollView showsVerticalScrollIndicator={false}>
+          <FlatList
+            contentContainerStyle={{paddingBottom: 20}}
+            showsVerticalScrollIndicator={false}
+            data={MenuList}
+            renderItem={({item, index}) => (
+              <HomeButtons
+                text={item.name}
+                onPress={() => RootNavigation.navigate(screen[index])}
+                style={{
+                  backgroundColor: colors[index],
+                  marginHorizontal: 15,
+                }}
+              />
+            )}
+          />
 
-        <ScrollView
+          <View style={{marginTop: 30, marginBottom: 20}}>
+            <Image
+              style={{
+                alignSelf: 'center',
+              }}
+              source={require('../appimages/homebottom.png')}
+            />
+            <Text
+              style={{
+                color: '#707070',
+                fontSize: 11,
+                fontFamily: fonts.frutigebold,
+                alignSelf: 'center',
+                marginTop: 10,
+              }}>
+              {`App Version ${
+                Platform.OS == `android`
+                  ? setting?.data?.android_version
+                  : setting?.data?.ios_version
+              }`}
+            </Text>
+          </View>
+        </ScrollView>
+
+        {/* <ScrollView
           contentContainerStyle={{
             paddingHorizontal: 15,
             backgroundColor: 'white',
@@ -121,13 +240,7 @@ const Home = ({navigation}) => {
             style={{backgroundColor: '#9EA9C7'}}
           />
 
-          {/* <HomeButtons
-            text={'REMEDIATION'}
-            onPress={() =>
-              RootNavigation.navigate(Constants.REMEIDATION_SCREEN)
-            }
-            style={{backgroundColor: '#CEC983'}}
-          /> */}
+         
 
           <HomeButtons
             text={'SAHTÚ HERITAGE'}
@@ -179,7 +292,7 @@ const Home = ({navigation}) => {
               App Version 1.2
             </Text>
           </View>
-        </ScrollView>
+        </ScrollView> */}
       </View>
     </SafeAreaView>
   );

@@ -1,16 +1,50 @@
-import {View, Text, SafeAreaView, Image, ScrollView} from 'react-native';
-import React from 'react';
+import {
+  View,
+  Text,
+  SafeAreaView,
+  Image,
+  ScrollView,
+  Dimensions,
+} from 'react-native';
+import React, {useEffect, useState} from 'react';
 import Toolbar from '../Component/Toolbar';
 import fonts from '../utils/FontUtils';
+import {getGreatBear} from '../networking/CallApi';
+import RenderHTML from 'react-native-render-html';
+import {VellyItems} from './MackenzieValley';
+import {ImageView, TextView, TimeView} from './BreakingNews';
 
-const GreatBear = ({navigation}) => {
+const GreatBear = ({navigation, route}) => {
+  const [list, setList] = useState([]);
+  const [isLoading, setLoading] = useState(false);
+  const item = route.params.item;
+
+  useEffect(() => {
+    setLoading(true);
+    getGreatBear({category_id: item.id}, response => {
+      console.log('great', response.data);
+      setList(response.data);
+      setLoading(false);
+    });
+  }, []);
+
+  const source = {
+    html: list?.description?.replace(`/n`, ``),
+  };
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: '#fff'}}>
-      <Toolbar text={'Great Bear River Bridge'} 
-      onPress={()=> navigation.goBack()}/>
+      <Toolbar text={item.name} onPress={() => navigation.goBack()} />
+
+      {isLoading && (
+        <View style={{}}>
+          <GreatList />
+          <GreatList />
+          <GreatList />
+        </View>
+      )}
 
       <ScrollView
-       showsVerticalScrollIndicator={false}
+        showsVerticalScrollIndicator={false}
         contentContainerStyle={{
           paddingHorizontal: 15,
           justifyContent: 'center',
@@ -39,7 +73,7 @@ const GreatBear = ({navigation}) => {
                   fontFamily: fonts.frutigeregular,
                   alignSelf: 'center',
                 }}>
-                25 Aug 08 AM
+                {list?.date}
               </Text>
             </View>
             <Text
@@ -49,8 +83,7 @@ const GreatBear = ({navigation}) => {
                 fontFamily: fonts.frutigebold,
               }}
               numberOfLines={2}>
-              November 29-30 & December 01 2021 in Délı̨nę NT and virtually via
-              Zoom PDF Documents available To download please select below:
+              {list?.title}
             </Text>
           </View>
 
@@ -60,17 +93,15 @@ const GreatBear = ({navigation}) => {
               style={{
                 width: '100%',
                 height: 210,
-
                 alignSelf: 'center',
-                backgroundColor: 'green',
               }}
-              source={require('../appimages/newstwo.png')}
+              source={{uri: list?.image}}
             />
           </View>
 
           {/* Bottom View  */}
           <View style={{flex: 0.6}}>
-            <Text
+            {/* <Text
               style={{
                 textAlign: 'justify',
                 lineHeight: 20,
@@ -92,7 +123,12 @@ const GreatBear = ({navigation}) => {
               tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
               minim veniam, quis nostrud exercitation ullamco laboris nisi ut
               aliquip ex ea commodo consequat.{' '}
-            </Text>
+            </Text> */}
+            <RenderHTML
+              contentWidth={Dimensions.get('window').width}
+              source={source}
+              tagsStyles={{body: {color: '#848484'}}}
+            />
           </View>
         </View>
       </ScrollView>
@@ -101,3 +137,14 @@ const GreatBear = ({navigation}) => {
 };
 
 export default GreatBear;
+
+export const GreatList = () => {
+  return (
+    <View>
+      <TimeView />
+      <TextView />
+      <ImageView />
+      <TimeView />
+    </View>
+  );
+};

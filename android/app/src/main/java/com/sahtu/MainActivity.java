@@ -1,4 +1,4 @@
-package com.sahtu_v3;
+package com.sahtu;
 
 import com.facebook.react.ReactActivity;
 import com.facebook.react.ReactActivityDelegate;

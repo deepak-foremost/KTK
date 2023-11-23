@@ -1,9 +1,35 @@
-import {View, Text, SafeAreaView, ScrollView, Image} from 'react-native';
-import React from 'react';
+import {
+  View,
+  Text,
+  SafeAreaView,
+  ScrollView,
+  Image,
+  Dimensions,
+} from 'react-native';
+import React, {useEffect, useState} from 'react';
 import Toolbar from '../Component/Toolbar';
 import fonts from '../utils/FontUtils';
+import {getReclamationCenter} from '../networking/CallApi';
+import RenderHTML from 'react-native-render-html';
+import {ImageView, TextView} from './BreakingNews';
+import {BigText} from './Scholarships';
 
 const Remediation = ({navigation}) => {
+  const [list, setList] = useState();
+  const [isLoading, setloading] = useState(false);
+
+  useEffect(() => {
+    setloading(true);
+    getReclamationCenter({}, response => {
+      setList(response.data);
+      setloading(false);
+    });
+  }, []);
+
+  const source = {
+    html: list?.description,
+  };
+
   return (
     <SafeAreaView style={{backgroundColor: 'white', flex: 1}}>
       <Toolbar
@@ -11,12 +37,19 @@ const Remediation = ({navigation}) => {
         onPress={() => navigation.goBack()}
       />
 
+      {isLoading && (
+        <View>
+          <ReclamationView />
+          <ReclamationView />
+          <ReclamationView />
+        </View>
+      )}
+
       <ScrollView
         showsVerticalScrollIndicator={false}
         contentContainerStyle={{
           paddingHorizontal: 15,
           justifyContent: 'center',
-
           backgroundColor: 'white',
         }}>
         <View style={{flex: 1}}>
@@ -32,46 +65,40 @@ const Remediation = ({navigation}) => {
                 alignSelf: 'center',
                 backgroundColor: 'green',
               }}
-              source={require('../appimages/newstwo.png')}
+              source={{uri: list?.image}}
             />
           </View>
 
           <View style={{flex: 0.2}}>
             <Text
               style={{
-                fontSize: 22,
+                fontSize: 20,
                 marginVertical: 20,
                 fontFamily: fonts.frutigebold,
               }}
               numberOfLines={3}>
-              Climate Change to planned remediation work mines, pipelines,
-              and oilfield work
+              {list?.title}
             </Text>
           </View>
 
           {/* Bottom View  */}
           <View style={{flex: 0.6}}>
-            <Text
+            {/* <Text
               style={{
                 textAlign: 'justify',
                 lineHeight: 20,
                 color: '#848484',
                 fontFamily: fonts.frutigeregular,
               }}>
-              1. Encourage the federal government to continue its planned
-              remediation work of abandoned mine sites in the Délı̨nę District;
-              {'\n\n'}
-              2. Urges the federal government to continue its efforts to improve
-              the economic conditions of indigenous people in the Sahtú Region;
-              {'\n\n'}
-              3. Recommends funding be provided to help Sahtú residents and
-              business prepare for mine, oilfield and pipeline remediation work
-              int he coming year; and{'\n\n'}4. Supports Délı̨nę District in its
-              efforts to negotiate a direct issuance of remediation work
-              associated with the Terra/Silver Bear project in the District to
-              the benefit of all the Indigenous residents and businesses of
-              the Sahtú Region.
-            </Text>
+              {list?.date}
+            </Text> */}
+            <RenderHTML
+              contentWidth={Dimensions.get('window').width}
+              source={source}
+              tagsStyles={{
+                body: {marginHorizontal: 15, color: '#848484', lineHeight: 20},
+              }}
+            />
           </View>
         </View>
       </ScrollView>
@@ -80,3 +107,13 @@ const Remediation = ({navigation}) => {
 };
 
 export default Remediation;
+
+export const ReclamationView = () => {
+  return (
+    <View>
+      <ImageView />
+      <TextView />
+      <BigText />
+    </View>
+  );
+};

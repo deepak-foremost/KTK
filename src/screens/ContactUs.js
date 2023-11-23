@@ -23,11 +23,15 @@ import fonts from '../utils/FontUtils';
 import * as RootNavigation from '../utils/RootNavigation';
 import Constants from '../utils/Constants';
 import {showMessage} from 'react-native-flash-message';
+import {postHelp} from '../networking/CallApi';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import Spinner from 'react-native-spinkit';
 
 const ContactUs = ({navigation}) => {
-  const [name, setName] = useState('');
+  const [full_name, setName] = useState('');
   const [email, setEmail] = useState('');
-  const [help, setHelp] = useState('');
+  const [description, setHelp] = useState('');
+  const [bounce, setBounce] = useState(false);
 
   const [showName, setShowName] = useState(false);
   const [showEmail, setshowEmail] = useState(false);
@@ -36,29 +40,113 @@ const ContactUs = ({navigation}) => {
   const [fadeName, setFadeName] = useState(false);
   const [fadeAdress, setFadeAdress] = useState(false);
   const [fadeHelp, setFadeHelp] = useState(false);
+  const [msgDescription, setMsgDescription] = useState('');
+  const [msgTitle, setMsgTitle] = useState('');
 
-  const showToast = () => {
-    if (name != '' && email != '' && help != '') {
-      showMessage({
-        message: 'Help Sent!',
-        description: 'Your request for help has been sent.',
-        type: 'info',
-        duration: 1500,
-        backgroundColor: '#FFF200',
-        textStyle: {color: 'black', fontStyle: fonts.frutigeregular},
-        color: 'black',
-        style: {
-          borderBottomLeftRadius: 20,
-          borderBottomRightRadius: 20,
+  const [setting, setSetting] = useState(null);
+  useEffect(async () => {
+    let settings = await AsyncStorage.getItem(`getSetting`);
+    setSetting(JSON.parse(settings));
+  }, []);
+
+  const data = {
+    full_name: full_name,
+    email: email,
+    description: description,
+  };
+
+  const Register = async () => {
+    const url = 'https://fdstaging.com/sahtu/api/v1/addContactUs';
+    let result = await fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({full_name, email, description}),
+    })
+      .then(response => response.json())
+      .then(responseData => {
+        console.log('status ---->', responseData.data);
+        // console.log('token------->', responseData.data);
+
+        if (responseData.status) {
+          console.log('save------>', responseData.status);
+          // SaveToken(responseData.token);
+        } else {
+          console.log('error', responseData.message);
+        }
+      })
+
+      //  .then(responseData => {
+      //    console.log('message', JSON.stringify(responseData.token));
+      //    let getToken=responseData.token;
+      //    setToken(getToken);
+      //  })
+      //  .then(responseData => {
+      //   console.log( 'token',JSON.stringify(responseData) )
+      //  })
+      .catch(error => console.error('erroreesf', error));
+  };
+
+  const SubmitHelp = () => {
+    if (full_name != '' && email != '' && description != '') {
+      setBounce(true);
+      postHelp(
+        data,
+        onSuccess => {
+          console.log('helpsent', onSuccess.status);
+          if (onSuccess.status == false) {
+            // setMsgTitle('Error');
+            // setMsgDescription(onSuccess.message);
+            showMessage({
+              message: 'Error',
+              description: onSuccess.message,
+              type: 'info',
+              duration: 2000,
+              backgroundColor: '#FFF200',
+              textStyle: {color: 'black', fontStyle: fonts.frutigeregular},
+              color: 'black',
+              style: {
+                borderBottomLeftRadius: 20,
+                borderBottomRightRadius: 20,
+              },
+              fontFamily: fonts.popinsbold,
+            });
+            setBounce(false);
+            // setEmail('');
+            // setHelp('');
+            // setName('');
+          } else {
+            // setMsgTitle('!');
+            // setMsgDescription('Your request for help has been sent.');
+            showMessage({
+              message: 'Help Sent!',
+              description: 'Your request for help has been sent.',
+              type: 'info',
+              duration: 2000,
+              backgroundColor: '#FFF200',
+              textStyle: {color: 'black', fontStyle: fonts.frutigeregular},
+              color: 'black',
+              style: {
+                borderBottomLeftRadius: 20,
+                borderBottomRightRadius: 20,
+              },
+              fontFamily: fonts.popinsbold,
+            });
+            setEmail('');
+            setHelp('');
+            setName('');
+            setBounce(false);
+          }
         },
-        fontFamily: fonts.popinsbold,
-      });
-
-      setEmail('');
-      setHelp('');
-      setName('');
+        onFailure => {
+          setMsgDescription(onFailure);
+        },
+      );
     } else {
-      ToastAndroid.show('Please Enter Details', ToastAndroid.SHORT);
+      if (Platform.OS == 'android') {
+        ToastAndroid.show('Please Enter Details', ToastAndroid.SHORT);
+      }
     }
   };
 
@@ -76,7 +164,7 @@ const ContactUs = ({navigation}) => {
   };
 
   useEffect(() => {
-    if (name === '') {
+    if (full_name === '') {
       setShowName(false);
     } else {
       setShowName(true);
@@ -86,7 +174,7 @@ const ContactUs = ({navigation}) => {
     } else {
       setshowEmail(true);
     }
-    if (help === '') {
+    if (description === '') {
       setshowHlep(false);
     } else {
       setshowHlep(true);
@@ -134,15 +222,16 @@ const ContactUs = ({navigation}) => {
         </Text>
       </View>
       <View style={{backgroundColor: '#E8E4E4', height: 1}}></View>
+
       <KeyboardAwareScrollView
         showsVerticalScrollIndicator={false}
-        style={{backgroundColor: 'white'}}
+        contentContainerStyle={{backgroundColor: 'white', flexGrow: 1}}
         extraScrollHeight={20}
         enableOnAndroid={true}>
         {/* TopView */}
         <View
           style={{
-            flex: 0.2,
+            flex: 0.3,
             justifyContent: 'center',
             paddingVertical: 25,
             backgroundColor: 'white',
@@ -155,6 +244,7 @@ const ContactUs = ({navigation}) => {
             }}>
             Need Help?
           </Text>
+
           <Text
             style={{
               color: '#848484',
@@ -179,10 +269,10 @@ const ContactUs = ({navigation}) => {
             paddingHorizontal: 15,
           }}>
           <TextInputView
-            value={name}
+            value={full_name}
             placeholderText={'Enter Full Name'}
             onChange={i => setName(i)}
-            showText={name == '' ? false : true}
+            showText={full_name == '' ? false : true}
             Text={'Full Name'}
           />
 
@@ -202,7 +292,7 @@ const ContactUs = ({navigation}) => {
             ) : null}
 
             <TextInput
-              value={help}
+              value={description}
               style={{
                 color: 'black',
                 height: '80%',
@@ -222,7 +312,10 @@ const ContactUs = ({navigation}) => {
 
           <TouchableOpacity
             activeOpacity={1}
-            onPress={() => showToast()}
+            onPress={
+              () => SubmitHelp()
+              // Register()
+            }
             // onPress={() => RootNavigation.navigate(Constants.SIGNUP_SCREEN)}
             // onPress={()=>   ToastAndroid.show("Submitt", ToastAndroid.SHORT)}
             style={{
@@ -233,12 +326,23 @@ const ContactUs = ({navigation}) => {
               width: '100%',
               marginTop: 20,
             }}>
-            <Text style={{alignSelf: 'center', fontFamily: fonts.frutigebold}}>
-              Submit
-            </Text>
+            {!bounce ? (
+              <Text
+                style={{alignSelf: 'center', fontFamily: fonts.frutigebold}}>
+                Submit
+              </Text>
+            ) : (
+              <Spinner
+                style={{alignSelf: 'center'}}
+                isVisible={true}
+                size={50}
+                type={'ThreeBounce'}
+                color={'black'}
+              />
+            )}
           </TouchableOpacity>
 
-          <View
+          <TouchableOpacity
             style={{
               flexDirection: 'row',
               marginTop: 30,
@@ -253,12 +357,27 @@ const ContactUs = ({navigation}) => {
               }}
               onPress={() =>
                 Linking.openURL(
-                  'mailto:ssi.ed@sahtu.ca,?subject=SendMail&body=Description',
+                  `mailto:${setting?.data?.emails?.[0]},?subject=SendMail&body=Description`,
                 )
               }>
-              ssi.ed@sahtu.ca, ssi.aa@sahtu.ca{' '}
+              {`${setting?.data?.emails[0]} ` + ','}
             </Text>
-          </View>
+
+            <Text
+              style={{
+                fontSize: 12,
+                fontFamily: fonts.frutigeregular,
+                marginLeft: 10,
+              }}
+              onPress={() =>
+                Linking.openURL(
+                  `mailto:${setting?.data?.emails?.[1]},?subject=SendMail&body=Description`,
+                )
+              }>
+              {`${setting?.data?.emails[1]} `}
+            </Text>
+          </TouchableOpacity>
+
           <View
             style={{
               flexDirection: 'row',
@@ -277,7 +396,7 @@ const ContactUs = ({navigation}) => {
                   ? triggerCall()
                   : Linking.openURL(`tel:${inputValue}`)
               }>
-              867-589-4719{' '}
+              {`${setting?.data?.phone} `}
             </Text>
           </View>
         </View>
@@ -291,23 +410,37 @@ const ContactUs = ({navigation}) => {
             justifyContent: 'center',
             paddingVertical: 40,
           }}>
-          <Image
-            style={{alignSelf: 'center'}}
-            source={require('../appimages/finalfacebook.png')}
-          />
-          <View style={{alignSelf: 'center', marginHorizontal: 15}}>
-            <Text style={{fontWeight: 'bold', fontSize: 15}}>Facebook</Text>
-            <Text style={{fontSize: 10, color: '#AAA100'}}>Follow Us</Text>
-          </View>
+          <TouchableOpacity
+            style={{flexDirection: 'row'}}
+            activeOpacity={1}
+            onPress={() => {
+              Linking.openURL(`${setting?.data?.facebook_link}`);
+            }}>
+            <Image
+              style={{alignSelf: 'center'}}
+              source={require('../appimages/finalfacebook.png')}
+            />
+            <View style={{alignSelf: 'center', marginHorizontal: 15}}>
+              <Text style={{fontWeight: 'bold', fontSize: 15}}>Facebook</Text>
+              <Text style={{fontSize: 10, color: '#AAA100'}}>Follow Us</Text>
+            </View>
+          </TouchableOpacity>
 
-          <Image
-            style={{alignSelf: 'center', marginLeft: 20}}
-            source={require('../appimages/finaltwitter.png')}
-          />
-          <View style={{alignSelf: 'center', marginHorizontal: 15}}>
-            <Text style={{fontWeight: 'bold', fontSize: 15}}>Twitter</Text>
-            <Text style={{fontSize: 10, color: '#AAA100'}}>Follow Us</Text>
-          </View>
+          <TouchableOpacity
+            style={{flexDirection: 'row'}}
+            activeOpacity={1}
+            onPress={() => {
+              Linking.openURL(`${setting?.data?.twitter_link}`);
+            }}>
+            <Image
+              style={{alignSelf: 'center', marginLeft: 20}}
+              source={require('../appimages/finaltwitter.png')}
+            />
+            <View style={{alignSelf: 'center', marginHorizontal: 15}}>
+              <Text style={{fontWeight: 'bold', fontSize: 15}}>Twitter</Text>
+              <Text style={{fontSize: 10, color: '#AAA100'}}>Follow Us</Text>
+            </View>
+          </TouchableOpacity>
         </View>
       </KeyboardAwareScrollView>
     </SafeAreaView>

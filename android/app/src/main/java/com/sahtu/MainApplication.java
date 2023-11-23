@@ -1,4 +1,4 @@
-package com.sahtu_v3;
+package com.sahtu;
 
 import android.app.Application;
 import com.facebook.react.PackageList;

@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,
   Text,
@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 import fonts from '../utils/FontUtils';
 import * as RootNavigation from '../utils/RootNavigation';
+import {getNotification, sendFirebaseToken} from '../networking/CallApi';
 
 const list = [
   {
@@ -37,6 +38,47 @@ const list = [
 
 const Notification = ({navigation}) => {
   const [show, setShow] = useState(true);
+  const [totalPage, setTotalPage] = useState(1);
+  const [page, setPage] = useState(1);
+  const [notification, setNotification] = useState([]);
+
+  const onLodeMore = () => {
+    if (totalPage > page) {
+      setPage(page + 1);
+    }
+  };
+
+  useEffect(() => {
+    LoadData();
+  }, []);
+
+  const LoadData = () => {
+    const params = {
+      page: page,
+    };
+    getNotification(params, response => {
+     
+      setTotalPage(response?.last_page)
+      if (!response.status) {
+          
+      } else {
+        var list = notification == null ? [] : [...notification];
+        if(page==1) {
+          setNotification(response?.data)
+          console.log('not',response?.data)
+        }else{
+          setNotification([...list,...response?.data]);
+        }
+      }
+
+      sendFirebaseToken()
+    },
+    response=>{
+      console.log('fasils',response?.data)
+      sendFirebaseToken()
+    });
+  };
+
   return (
     <SafeAreaView style={{backgroundColor: 'white', flex: 1}}>
       <View
@@ -76,8 +118,12 @@ const Notification = ({navigation}) => {
       <View style={{height: 1, backgroundColor: '#E8E4E4'}}></View>
 
       <FlatList
-        data={list}
+        data={notification}
         showsVerticalScrollIndicator={false}
+        onEndReachedThreshold={0.6}
+        onEndReached={() => {
+          onLodeMore();
+        }}
         renderItem={({item}) => (
           <View
             style={{
@@ -92,25 +138,24 @@ const Notification = ({navigation}) => {
               style={{
                 alignSelf: 'center',
                 alignSelf: 'center',
-                height:45,
-                width:45
+                height: 40,
+                width: 40,
               }}
               source={require('../appimages/yellownotify.png')}
             />
-            <View style={{flex:1,marginLeft:10}}>
+            <View style={{flex: 1, marginLeft: 10}}>
               <Text
                 style={{
                   fontSize: 16,
-                  fontFamily: fonts.frutigeregular,
-                  lineHeight:20
+                  fontFamily: fonts.frutigebold,
+                  lineHeight: 20,
                 }}>
-                {item.title}
+                {item?.title}
               </Text>
             </View>
           </View>
         )}
       />
-     
     </SafeAreaView>
   );
 };

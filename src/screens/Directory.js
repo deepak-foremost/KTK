@@ -9,6 +9,7 @@ import {
   SectionList,
   ScrollView,
   StyleSheet,
+  Dimensions,
 } from 'react-native';
 import dropdown from '../appimages/spinup.png';
 import dropUp from '../appimages/spindown.png';
@@ -16,6 +17,8 @@ import fonts from '../utils/FontUtils';
 import * as RootNavigation from '../utils/RootNavigation';
 import {CallApi, getDirectory} from '../networking/CallApi';
 import {Apis, Request_Type} from '../networking/Apis';
+import RenderHTML from 'react-native-render-html';
+import {VellyItems} from './MackenzieValley';
 
 const list = [
   {
@@ -93,21 +96,61 @@ const Directory = ({navigation}) => {
   const [show, setShow] = useState(true);
   const [itemid, setItemid] = useState(-1);
   const [directories, setDirectory] = useState([]);
+  const [totalPage, setTotalPage] = useState(1);
+  const [page, setPage] = useState(1);
+  const [isLoading, setLoading] = useState(false);
+
+  const onLodeMore = () => {
+    if (totalPage > page) {
+      setPage(page + 1);
+    }
+  };
+
+  useEffect(() => {
+    setLoading(true);
+    LoadData();
+  }, []);
+
+  const LoadData = () => {
+    const params = {
+      page: page,
+    };
+    getDirectory(
+      params,
+      response => {
+        setTotalPage(response?.last_page);
+        if (!response.status) {
+        } else {
+          var list = directories == null ? [] : [...directories];
+          if (page == 1) {
+            setDirectory(response?.data);
+            console.log('not', response?.data);
+          } else {
+            setDirectory([...list, ...response?.data]);
+          }
+          setLoading(false);
+        }
+      },
+      response => {
+        console.log('fasils', response?.data);
+      },
+    );
+  };
 
   var ViewColor = itemid == -1 ? '#FFEBDC' : '#F2CAAC';
 
-  useEffect(() => {
-    getDirectory(
-      {},
-      onSuccess => {
-        console.log('onSuccess---->', onSuccess);
-        setDirectory(onSuccess?.data);
-      },
-      onFailure => {
-        console.log('onFailure---->', onFailure);
-      },
-    );
-  }, [directories, setDirectory]);
+  // useEffect(() => {
+  //   getDirectory(
+  //     {},
+  //     onSuccess => {
+  //       console.log('onSuccess---->', onSuccess);
+  //       setDirectory(onSuccess?.data);
+  //     },
+  //     onFailure => {
+  //       console.log('onFailure---->', onFailure);
+  //     },
+  //   );
+  // }, []);
   return (
     <SafeAreaView style={{backgroundColor: 'white', flex: 1}}>
       <View
@@ -271,10 +314,23 @@ const Directory = ({navigation}) => {
         ) : null}
       </ScrollView> */}
 
+      {isLoading && (
+        <View style={{}}>
+          <VellyItems />
+          <VellyItems />
+          <VellyItems />
+          <VellyItems />
+        </View>
+      )}
+
       <FlatList
         style={{backgroundColor: 'white'}}
         showsVerticalScrollIndicator={false}
-        data={list}
+        data={directories}
+        onEndReachedThreshold={0.6}
+        onEndReached={() => {
+          onLodeMore();
+        }}
         renderItem={({item, index}) => (
           <View style={{}}>
             <View
@@ -288,7 +344,7 @@ const Directory = ({navigation}) => {
                 marginTop: 15,
               }}
               onStartShouldSetResponder={() =>
-                itemid == item.id ? setItemid(-1) : setItemid(item.id)
+                itemid == index ? setItemid(-1) : setItemid(index)
               }>
               <Text
                 style={{
@@ -296,7 +352,7 @@ const Directory = ({navigation}) => {
                   fontFamily: fonts.frutigebold,
                   color: 'black',
                 }}>
-                {item.article}
+                {item.title}
               </Text>
 
               <Image
@@ -311,16 +367,16 @@ const Directory = ({navigation}) => {
                   backgroundColor: itemid == index ? '#F2CAAC' : '#FFEBDC',
                   marginHorizontal: 15,
                   paddingHorizontal: 10,
-                  paddingTop: 15,
+                  paddingVertical: 5,
                 }}>
-                <Text
+                {/* <Text
                   style={{
                     fontSize: 12,
                     fontFamily: fonts.frutigebold,
                     color: 'black',
                     lineHeight: 20,
-                  }}>
-                  {item.data.at(0) +
+                  }}> */}
+                {/* {item.data.at(0) +
                     '\n' +
                     item.data.at(1) +
                     '\n' +
@@ -329,8 +385,15 @@ const Directory = ({navigation}) => {
                     item.data.at(3) +
                     '\n' +
                     item.data.at(4) +
-                    '\n'}
-                </Text>
+                    '\n'} */}
+
+                {/* {item.description}
+                </Text> */}
+                <RenderHTML
+                  contentWidth={Dimensions.get('window').width}
+                  tagsStyles={{body: {color: 'black', lineHeight: 20}}}
+                  source={{html: item.description}}
+                />
               </View>
             ) : null}
           </View>

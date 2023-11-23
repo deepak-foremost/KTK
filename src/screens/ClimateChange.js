@@ -1,44 +1,70 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, {useEffect, useState} from 'react';
-import {SafeAreaView, View, Text, TouchableOpacity, Image} from 'react-native';
+import {
+  SafeAreaView,
+  View,
+  Text,
+  TouchableOpacity,
+  Image,
+  Dimensions,
+  ScrollView,
+} from 'react-native';
 import fonts from '../utils/FontUtils';
 import * as RootNavigation from '../utils/RootNavigation';
+import {getClimateChange} from '../networking/CallApi';
+import RenderHTML from 'react-native-render-html';
+import {SahtuItem} from './SahtuHeritage';
 
 const Climate = ({navigation}) => {
   const [first_name, setFirstName] = useState('deep');
   const [email, setEmail] = useState('ilbev');
   const [phone, setPhone] = useState('vebvl');
+  const [climateData, setClimateDta] = useState([]);
+  const [isLoading, setloading] = useState(false);
 
   useEffect(() => {
-    getToken();
-    // getProfile();
-  });
-
-  const getToken = async () => {
-    const token = await AsyncStorage.getItem('token');
-    console.log('token--->', token);
-
-    getProfile(token);
-  };
-
-  const getProfile = async token => {
-    const url = 'https://foremostdigital.dev/adforest/api/getProfile';
-    fetch(url, {
-      method: 'GET',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
+    setloading(true);
+    getClimateChange(
+      {},
+      response => {
+        setClimateDta(response?.data);
+        setloading(false);
       },
-    })
-      .then(response => response.json())
-      .then(responseData => {
-        setEmail(responseData.email);
-        console.log('Phone--->', JSON.stringify(responseData));
-        console.log('Mail--->', JSON.stringify(responseData.data?.email));
-        console.log('name--->', responseData.data?.phone);
-      });
-  };
+      response => {
+        console.log(response);
+      },
+    );
+  }, []);
+  // useEffect(() => {
+  //   getToken();
+  //   // getProfile();
+  // });
+
+  // const getToken = async () => {
+  //   const token = await AsyncStorage.getItem('token');
+  //   console.log('token--->', token);
+
+  //   getProfile(token);
+  // };
+
+  // const getProfile = async token => {
+  //   const url = 'https://foremostdigital.dev/adforest/api/getProfile';
+  //   fetch(url, {
+  //     method: 'GET',
+  //     headers: {
+  //       Accept: 'application/json',
+  //       'Content-Type': 'application/json',
+  //       Authorization: `Bearer ${token}`,
+  //     },
+  //   })
+  //     .then(response => response.json())
+  //     .then(responseData => {
+  //       setEmail(responseData.email);
+  //       console.log('Phone--->', JSON.stringify(responseData));
+  //       console.log('Mail--->', JSON.stringify(responseData.data?.email));
+  //       console.log('name--->', responseData.data?.phone);
+  //     });
+  // };
 
   return (
     <SafeAreaView style={{flex: 1, backgroundColor: '#fff'}}>
@@ -69,7 +95,7 @@ const Climate = ({navigation}) => {
         <Text style={{fontSize: 18, fontFamily: fonts.frutigebold}}>
           Climate Change
         </Text>
-        <TouchableOpacity
+        {/* <TouchableOpacity
           activeOpacity={1}
           style={{position: 'absolute', right: 15}}
           onPress={() => navigation.navigate('Profile')}>
@@ -77,26 +103,34 @@ const Climate = ({navigation}) => {
             style={{alignSelf: 'center', width: 35, height: 35}}
             source={require('../appimages/girlimg.png')}
           />
-        </TouchableOpacity>
+        </TouchableOpacity> */}
       </View>
 
-      <View
-        style={{justifyContent: 'center', alignItems: 'center', padding: 15}}>
-        <Image
-          style={{width: '100%', height: 120}}
-          source={require('../appimages/newstwo.png')}
-        />
-      </View>
-      <Text
-        style={{
-          fontSize: 22,
-          marginBottom: 15,
-          fontFamily: fonts.frutigebold,
-          marginLeft: 15,
-        }}>
-        Climate Change
-      </Text>
-      <Text
+      {isLoading && (
+        <View>
+          <SahtuItem />
+          <SahtuItem />
+        </View>
+      )}
+
+      <ScrollView>
+        <View
+          style={{justifyContent: 'center', alignItems: 'center', padding: 15}}>
+          <Image
+            style={{width: '100%', height: 120}}
+            source={{uri: climateData.image}}
+          />
+        </View>
+        <Text
+          style={{
+            fontSize: 22,
+            marginBottom: 15,
+            fontFamily: fonts.frutigebold,
+            marginLeft: 15,
+          }}>
+          {climateData.title}
+        </Text>
+        {/* <Text
         style={{
           fontSize: 12,
           fontFamily: fonts.frutigebold,
@@ -104,15 +138,14 @@ const Climate = ({navigation}) => {
           marginHorizontal: 15,
           lineHeight: 18,
         }}>
-        SSI has established a small climate change research facility that will
-        support research into the effects of climate change on very young
-        people. This facility will be overseen by a science advisor (a pediatric
-        physician) and will, when fully funded in the new year, begin community
-        consultations on the health of very young children and look for ways to
-        help them to avoid climate change caused health issues and/or overcome
-        them. Community information sessions for parents of very young children
-        are planned to start in April of next year.
-      </Text>
+        {climateData.description}
+      </Text> */}
+        <RenderHTML
+          source={{html: climateData.description}}
+          contentWidth={Dimensions.get('window').width}
+          tagsStyles={{body: {marginHorizontal: 15, color: '#848484'}}}
+        />
+      </ScrollView>
     </SafeAreaView>
   );
 };

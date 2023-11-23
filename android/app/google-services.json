@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "564733101417",
+    "project_id": "sathu-6de2a",
+    "storage_bucket": "sathu-6de2a.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:564733101417:android:371b0531f4ba123c7b29f8",
+        "android_client_info": {
+          "package_name": "com.sahtu"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDv-EXa380avga7R4U1tDImuE4AHaDu9tE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:564733101417:android:cb17f8cfd3395e887b29f8",
+        "android_client_info": {
+          "package_name": "com.sathu"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDv-EXa380avga7R4U1tDImuE4AHaDu9tE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

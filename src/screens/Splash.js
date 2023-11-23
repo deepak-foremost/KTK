@@ -4,10 +4,30 @@ import {View, Text, Image, TouchableOpacity, SafeAreaView, StatusBar} from 'reac
 import * as Progress from 'react-native-progress';
 import * as RootNavigation from '../utils/RootNavigation';
 import Constants from '../utils/Constants';
+import { requestUserPermission } from '../utils/MyNotificationService';
 
+import messaging from '@react-native-firebase/messaging';
+var notificationData = null;
 const Splash = props => {
   const [progress, setProgress] = useState(0);
   const [first, setFirst] = useState(false);
+
+  useEffect(() => {
+    requestUserPermission()
+
+    messaging()
+      .getInitialNotification()
+      .then(async (remoteMessage) => {
+        //remoteMessage --> is now filled 
+        console.log('getInitialNotification', remoteMessage);
+        if (remoteMessage?.notification && notificationData == null) {
+          notificationData = remoteMessage?.data;
+        }
+      });
+
+
+  }, [])
+  
 
   useEffect(() => {
     fillProgress();
@@ -49,7 +69,11 @@ const Splash = props => {
     } else {
       setFirst(true);
       setTimeout(() => {
+        
         RootNavigation.forcePush(props, Constants.HOME_SCREEN);
+        if(notificationData!=null){
+          RootNavigation.navigate( Constants.NOTIFICATION_SCREEN);
+        }
         // navigation.replace('Home');
       }, 3500);
     }

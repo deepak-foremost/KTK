@@ -36,7 +36,7 @@ const Toolbar = (props,{navigation}) => {
         style={{
           fontFamily: fonts.frutigebold,
           fontSize: 18,
-         
+          
         }}>
         {props?.text}
       </Text>

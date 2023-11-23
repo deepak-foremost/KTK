@@ -1,5 +1,6 @@
 apply plugin: "com.android.application"
 apply plugin: "com.facebook.react"
+apply plugin: 'com.google.gms.google-services'
 
 /**
  * This is the configuration block to customize your React Native Android app.
@@ -73,7 +74,7 @@ android {
 
     compileSdkVersion rootProject.ext.compileSdkVersion
 
-    namespace "com.sahtu_v3"
+    namespace "com.sahtu"
     defaultConfig {
         applicationId "com.sahtu"
         minSdkVersion rootProject.ext.minSdkVersion
@@ -118,6 +119,9 @@ dependencies {
     } else {
         implementation jscFlavor
     }
+
+//    implementation platform('com.google.firebase:firebase-bom:30.0.1')
+//    implementation project(path: ":@react-native-firebase_messaging")
 }
 
 apply from: file("../../node_modules/@react-native-community/cli-platform-android/native_modules.gradle"); applyNativeModulesAppBuildGradle(project)

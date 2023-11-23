@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   View,
   Text,
@@ -13,42 +13,54 @@ import dropdown from '../appimages/dropup.png';
 import dropUp from '../appimages/dropdown.png';
 import fonts from '../utils/FontUtils';
 import * as RootNavigation from '../utils/RootNavigation';
+import {getFaqs} from '../networking/CallApi';
+import {VellyItems} from './MackenzieValley';
 
-const list = [
-  {
-    id: 0,
-    title: 'What is Sahtú Article and how does it work ?',
-    show: false,
-    detail:
-      'Sahtú Article is a news app that provides you with the latest and  most relevant news articles from various sources. Our app uses advanced algorithms to curate and deliver personalized news content based on your interests and preferences ',
-  },
-  {
-    id: 1,
-    title: 'What is Shathu Article and how does it work ?',
-    show: false,
-    detail:
-      'Sahtú Article is a news app that provides you with the latest and  most relevant news articles from various sources. Our app uses advanced algorithms to curate and deliver personalized news content based on your interests and preferences ',
-  },
-  {
-    id: 2,
-    title: 'What is Shathu Article and how does it work ?',
-    show: false,
-    detail:
-      'Sahtú Article is a news app that provides you with the latest and  most relevant news articles from various sources. Our app uses advanced algorithms to curate and deliver personalized news content based on your interests and preferences ',
-  },
-  {
-    id: 3,
-    title: 'What is Shathu Article and how does it work ?',
-    show: false,
-    detail:
-      'Sahtú Article is a news app that provides you with the latest and  most relevant news articles from various sources. Our app uses advanced algorithms to curate and deliver personalized news content based on your interests and preferences ',
-  },
-];
+// const list = [
+//   {
+//     id: 0,
+//     title: 'What is Sahtú Article and how does it work ?',
+//     show: false,
+//     detail:
+//       'Sahtú Article is a news app that provides you with the latest and  most relevant news articles from various sources. Our app uses advanced algorithms to curate and deliver personalized news content based on your interests and preferences ',
+//   },
+//   {
+//     id: 1,
+//     title: 'What is Shathu Article and how does it work ?',
+//     show: false,
+//     detail:
+//       'Sahtú Article is a news app that provides you with the latest and  most relevant news articles from various sources. Our app uses advanced algorithms to curate and deliver personalized news content based on your interests and preferences ',
+//   },
+//   {
+//     id: 2,
+//     title: 'What is Shathu Article and how does it work ?',
+//     show: false,
+//     detail:
+//       'Sahtú Article is a news app that provides you with the latest and  most relevant news articles from various sources. Our app uses advanced algorithms to curate and deliver personalized news content based on your interests and preferences ',
+//   },
+//   {
+//     id: 3,
+//     title: 'What is Shathu Article and how does it work ?',
+//     show: false,
+//     detail:
+//       'Sahtú Article is a news app that provides you with the latest and  most relevant news articles from various sources. Our app uses advanced algorithms to curate and deliver personalized news content based on your interests and preferences ',
+//   },
+// ];
 
 const Faqs = ({navigation}) => {
   const [itemid, setItemid] = useState(-1);
   const [show, setShow] = useState(true);
+  const [list, setList] = useState([]);
+  const [isLoading, setLoading] = useState(false);
   var imgSrc = itemid == -1 ? dropdown : dropUp;
+
+  useEffect(() => {
+    setLoading(true);
+    getFaqs({}, response => {
+      setList(response.data);
+      setLoading(false);
+    });
+  }, []);
 
   showhidetextcomponentview = id => {
     this.setstate({
@@ -87,7 +99,7 @@ const Faqs = ({navigation}) => {
         <Text
           style={{
             fontSize: 18,
-           
+
             textAlign: 'center',
             fontFamily: fonts.frutigebold,
             marginVertical: 10,
@@ -232,6 +244,15 @@ const Faqs = ({navigation}) => {
         </View>
       </ScrollView> */}
 
+      {isLoading && (
+        <View style={{}}>
+          <VellyItems />
+          <VellyItems />
+          <VellyItems />
+          <VellyItems />
+        </View>
+      )}
+
       <FlatList
         style={{backgroundColor: 'white', paddingTop: 10}}
         showsVerticalScrollIndicator={false}
@@ -245,21 +266,21 @@ const Faqs = ({navigation}) => {
                 flexDirection: 'row',
               }}
               onStartShouldSetResponder={() =>
-                itemid == item.id ? setItemid(-1) : setItemid(item.id)
+                itemid == index ? setItemid(-1) : setItemid(index)
               }>
-              <View style={{marginRight:30,marginLeft:15}}>
+              <View style={{marginRight: 30, marginLeft: 15}}>
                 <Text
                   style={{
                     fontSize: 16,
                     fontFamily: fonts.frutigebold,
                   }}>
-                  What is Sahtú Article and how does it work ?
+                  {item.question}
                 </Text>
               </View>
 
               <Image
                 style={{alignSelf: 'center', position: 'absolute', right: 15}}
-                source={itemid == index ?  dropdown :dropUp }
+                source={itemid == index ? dropdown : dropUp}
               />
             </View>
             {itemid == index ? (
@@ -276,7 +297,7 @@ const Faqs = ({navigation}) => {
                     color: 'black',
                     lineHeight: 20,
                   }}>
-                  {item.detail}
+                  {item.answer}
                 </Text>
               </View>
             ) : null}
